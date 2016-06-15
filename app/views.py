@@ -8,14 +8,14 @@ from app import app
 
 
 class LoginForm(Form):
-    userid = TextField('userid',
+    username = TextField('',
     validators=[Required()],
     render_kw={"placeholder": "username"})
 
-    password = PasswordField('Password',
+    password = PasswordField('',
     validators=[Required()],
     render_kw={"placeholder": "password"})
-    submit_button = SubmitField('sign in')
+    submit_button = SubmitField('log in')
 
 @app.route('/', methods=["GET", "POST"])
 @app.route('/login', methods=["GET", "POST"])
@@ -25,7 +25,7 @@ def login():
     """
     form = LoginForm()
     form.validate_on_submit()  # to get error messages to the browser
-    return render_template('login2.html',
+    return render_template('login.html',
                            title='Sign In',
                            form=form
                            )
