@@ -4,6 +4,7 @@ from wtforms import TextField, HiddenField, ValidationError, RadioField,\
     BooleanField, SubmitField, IntegerField, FormField, validators, \
     PasswordField
 from wtforms.validators import Required
+from flask_login import login_user
 from app import app
 
 
