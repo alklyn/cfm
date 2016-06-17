@@ -14,7 +14,23 @@
     <div class="container-fluid">
         <div class="row">
             <div class="loginbox">
-                {{ wtf.quick_form(form, button_map={'submit_button': 'primary'}) }}
+                {% if error %}
+                  <div>
+                      {{errror}}
+                  </div>
+                {% endif%}
+                <form action="/validateLogin" method="post">
+                    <div>
+                        {{ form.username }}
+                    </div>
+                    <div>
+                        {{ form.password }}
+                    </div>
+                    {{ form.csrf_token }}
+                    <div>
+                        <input type="submit" value="log in">
+                    </div>
+                </form>
             </div>
        </div>
     </div>

@@ -1,0 +1,18 @@
+<!-- extend from base layout -->
+{% extends "base2.html" %}
+{% block content %}
+    {{ super() }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                {%for user in user_details%}
+                    {% for key, value in user.items() %}
+                        {{ key }} : {{ value }} <br>
+                    {% endfor %}
+                    <br>
+                    <br>
+                {% endfor %}
+            </div>
+       </div>
+    </div>
+{% endblock %}
