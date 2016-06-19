@@ -1,4 +1,5 @@
 import pymysql
+from bcrypt import gensalt, hashpw
 
 server = {
     "host": "localhost",
@@ -12,12 +13,14 @@ def connect():
     Connect to the mysql database.
     Returns a database connection and a cursor.
     """
+    #print(server)
     try:
         db = pymysql.connect(
             host = server["host"],
             user = server["user"],
             passwd = server["passwd"],
-            db = server["database"]
+            db = server["database"],
+            autocommit=False
         )
     except (ConnectionRefusedError) as cre:
         print("Error!: {} ".format(cre))
@@ -25,39 +28,72 @@ def connect():
     except (pymysql.err.OperationalError) as peoe:
         print("Error!: {}".format(peoe))
         exit()
+    except (pymysql.err.ProgrammingError) as pepe:
+        print("Error!: {}".format(pepe))
+        exit()
     else:
         cursor = db.cursor(pymysql.cursors.DictCursor)
         return db, cursor
 
-class User():
+
+class User:
     """
     Class for handling users
     """
-
-    def get_user_details(userid=None, username=None, firstname=None, lastname=None):
+    def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
         """
-        Get details about users from database;
+        Get details about users from database
+        required_columns: A string containing the columns required from the
+                          query or * for all
+        where_clause: A string containg the statements after the where clause
+        params: A tuple containing all the required parameters
         """
-        params = 1
-        if userid is not None:
-            id_param = "id = '{}'".format(id)
-            params = "{} and {}".format(params, id_param)
-        if username is not None:
-            un_param = "username = '{}'".format(username)
-            params = "{} and {}".format(params, un_param)
-
-
-
 
         db, cursor = connect()
         query = """
-        select *
+        select {}
         from user
         where {};
-        """.format(params)
+        """.format(required_columns, where_clause)
         print("query: {}".format(query))
 
-        cursor.execute(query)
+        cursor.execute(query, params)
         user_details = cursor.fetchall()
         db.close
         return user_details
+
+    def save_to_db(firstname, lastname, username, passwd, email, dept_id):
+        """
+        Save user details to database.
+        """
+        conn, cursor = connect()
+
+        query = """
+            INSERT INTO
+            user(firstname, lastname, username, passwd, email, dept_id)
+            VALUES(%s, %s, %s, %s, %s, %s);
+        """
+
+        cursor.execute(
+            query, (firstname, lastname, username, passwd, email, dept_id))
+        conn.commit()
+        conn.close()
+
+    def check_pw(username, password):
+        """
+        Validate supplied usrname & password with the one in the database
+        Output: True if successful
+        """
+        required_columns = "passwd"
+        where_clause = "username = %s"
+        params = [username]
+        user_details = User.get_user_details(
+            required_columns=required_columns,
+            where_clause=where_clause,
+            params=params)
+
+        if user_details:
+            valid_pw = bytes(user_details[0]["passwd"], 'utf8')
+            return valid_pw == hashpw(password.encode("utf-8"), valid_pw)
+        else:
+            return False

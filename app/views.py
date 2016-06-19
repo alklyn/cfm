@@ -1,14 +1,11 @@
-from flask import render_template, flash, redirect, request
+from flask import render_template, flash, redirect, request, url_for
 from flask_wtf import Form
 from wtforms import TextField, HiddenField, ValidationError, RadioField,\
     BooleanField, SubmitField, IntegerField, FormField, validators, \
     PasswordField
 from wtforms.validators import Required
-from flask_login import login_user
 from app import app
 from app import dbi
-import sys
-print(sys.path)
 #from dbi import User
 
 
@@ -42,15 +39,25 @@ def validateLogin():
         username = request.form['username']
         password = request.form['password']
     except Exception as e:
-        return render_template('login.html',
-                                   title='Sign In',
-                                   form=request.form,
-                                   error=str(e)
-                                   )
+        return redirect(url_for('login'))
+    else:
+        if dbi.User.check_pw(username, password):
+            return redirect(url_for('index'))
+        else:
+            return redirect(url_for('login'))
 
-@app.route('/users')
-def users():
-    user_details = dbi.User.get_user_details()
+
+
+@app.route('/users/')
+@app.route('/users/<username>')
+def users(username='all'):
+    if username == 'all':
+        where_clause = "%s"
+        params = (1, )
+    else:
+        where_clause = "username = %s"
+        params = (username, )
+    user_details = dbi.User.get_user_details(where_clause=where_clause)
     return render_template('users.html',
                            title='Users',
                            user_details=user_details
