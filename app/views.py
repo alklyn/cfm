@@ -10,14 +10,17 @@ from app import dbi
 
 
 class LoginForm(Form):
-    username = TextField('',
+    username = TextField('username',
     validators=[Required()],
     render_kw={"placeholder": "username"})
 
-    password = PasswordField('',
+    password = PasswordField('password',
     validators=[Required()],
     render_kw={"placeholder": "password"})
     submit_button = SubmitField('log in')
+
+    submit = SubmitField("sign in")
+
 
 @app.route('/', methods=["GET", "POST"])
 @app.route('/login', methods=["GET", "POST"])
@@ -26,7 +29,9 @@ def login():
     Handles user logins
     """
     form = LoginForm()
-    form.validate_on_submit()  # to get error messages to the browser
+    if form.validate_on_submit():# to get error messages to the browse
+        return redirect(url_for('index'))
+
     return render_template('login.html',
                            title='Sign In',
                            form=form
