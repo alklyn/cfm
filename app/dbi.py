@@ -40,6 +40,32 @@ class User:
     """
     Class for handling users
     """
+    def fetch_from_table(
+                         required_columns="*",
+                         where_clause="%s",
+                         params=(1, ),
+                         table='programme'):
+        """
+        Fetch required data from any table in the the database
+        required_columns: A string containing the columns required from the
+                          query or * for all
+        where_clause: A string containg the statements after the where clause
+        params: A tuple containing all the required parameters
+        """
+
+        db, cursor = connect()
+        query = """
+        select {}
+        from {}
+        where {};
+        """.format(required_columns, table, where_clause)
+        print("query: {}".format(query))
+
+        cursor.execute(query, params)
+        data = cursor.fetchall()
+        db.close
+        return data
+
     def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
         """
         Get details about users from database
@@ -62,7 +88,22 @@ class User:
         db.close
         return user_details
 
-    def save_to_db(firstname, lastname, username, passwd, email, dept_id):
+    def add_department(name):
+        """
+        Add a department to the database.
+        """
+        conn, cursor = connect()
+
+        query = """
+            INSERT INTO
+            department(name)
+            VALUES(%s);
+        """
+        cursor.execute(query, (name, ))
+        conn.commit()
+        conn.close()
+
+    def add_user(firstname, lastname, username, passwd, email, dept_id):
         """
         Save user details to database.
         """
@@ -73,9 +114,24 @@ class User:
             user(firstname, lastname, username, passwd, email, dept_id)
             VALUES(%s, %s, %s, %s, %s, %s);
         """
-
         cursor.execute(
             query, (firstname, lastname, username, passwd, email, dept_id))
+        conn.commit()
+        conn.close()
+
+    def add_topic(description):
+        """
+        Add a helpdesk topic to database.
+        """
+        conn, cursor = connect()
+
+        query = """
+            INSERT INTO
+            topic(description)
+            VALUES(%s);
+        """
+        cursor.execute(
+            query, (description, ))
         conn.commit()
         conn.close()
 
