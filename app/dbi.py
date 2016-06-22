@@ -141,6 +141,7 @@ def add_topic(description):
     data = (description, )
     insert_into_table(table, columns, data)
 
+
 def add_priority(description):
     """
     Add a ticket priority level to database.
@@ -150,6 +151,35 @@ def add_priority(description):
     data = (description, )
     insert_into_table(table, columns, data)
 
+
+def add_ticket_status(description):
+    """
+    Add a ticket status level to database.
+    """
+    table = "ticket_status"
+    columns = "description"
+    data = (description, )
+    insert_into_table(table, columns, data)
+
+
+def add_ticket(
+               caller_name, gender_id, location_id, topic_id, priority_id,
+               partner_id, programme_id, details, created_by, assigned_to):
+    """
+    Add a ticket priority level to database.
+    """
+    table = "priority"
+    columns = """
+        caller_name, gender_id, location_id, topic_id, priority_id,
+        partner_id, programme_id, details, created_by, assigned_to
+    """
+    data = (
+        caller_name, gender_id, location_id, topic_id, priority_id,
+        partner_id, programme_id, details, created_by, assigned_to
+    )
+    insert_into_table(table, columns, data)
+
+
 def check_pw(username, password):
     """
     Validate supplied usrname & password with the one in the database
@@ -158,7 +188,7 @@ def check_pw(username, password):
     required_columns = "passwd"
     where_clause = "username = %s"
     params = [username]
-    user_details = User.get_user_details(
+    user_details = get_user_details(
         required_columns=required_columns,
         where_clause=where_clause,
         params=params)
