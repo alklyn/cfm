@@ -24,9 +24,7 @@
 {% block content %}
     {{ super() }}
     <div class="container-fluid">
-        <div class="row">
-            {% block my_content%}
-            {% endblock %}
-       </div>
+        {% block my_content%}
+        {% endblock %}
     </div>
 {% endblock %}
