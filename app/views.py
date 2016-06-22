@@ -62,7 +62,7 @@ def users(username='all'):
     else:
         where_clause = "username = %s"
         params = (username, )
-    user_details = dbi.User.get_user_details(where_clause=where_clause)
+    user_details = dbi.get_user_details(where_clause=where_clause)
     return render_template('users.html',
                            title='Users',
                            user_details=user_details
