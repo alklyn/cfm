@@ -46,11 +46,10 @@ def validateLogin():
     except Exception as e:
         return redirect(url_for('login'))
     else:
-        if dbi.User.check_pw(username, password):
+        if dbi.check_pw(username, password):
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
-
 
 
 @app.route('/users/')
