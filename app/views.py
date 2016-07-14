@@ -4,6 +4,7 @@ from wtforms import TextField, HiddenField, ValidationError, RadioField,\
     BooleanField, SubmitField, IntegerField, FormField, validators, \
     PasswordField
 from wtforms.validators import Required
+
 from app import app
 from app import dbi
 #from dbi import User
@@ -47,6 +48,10 @@ def validateLogin():
         return redirect(url_for('login'))
     else:
         if dbi.check_pw(username, password):
+            #get_user_details(required_columns="*", where_clause="%s", params=(1, )
+            user_data = dbi.get_user_details(where_clause = "username = %s",
+                                             params = (username, ))
+            session["id"] = user_data[0]["id"]
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
@@ -70,6 +75,10 @@ def users(username='all'):
 
 @app.route('/index')
 def index():
+    data = dbi.get_user_details(where_clause = "id = %s",
+                                     params = (id, ))
+    user_details = data[0]
     return render_template('index.html',
-                           title='Home'
+                           title='Home',
+                           name=user_details["firstname"]
                            )

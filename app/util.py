@@ -21,4 +21,4 @@ class User(UserMixin):
         a unicode - if the ID is natively an int or some other type, you will
         need to convert it to unicode.
         """
-        pass
+        return self.id
