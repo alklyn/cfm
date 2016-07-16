@@ -1,3 +1,11 @@
+
+/*Prevent overflows */
 img, embed, object, video{
     max-width: 100%;
+}
+
+/*Set proper size for tap targets*/
+button {
+    min-width: 48px;
+    min-height: 48px;
 }
