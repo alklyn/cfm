@@ -73,13 +73,36 @@ def users(username='all'):
                            )
 
 
+@app.route('/test/')
+def test():
+    try:  #Test if user is logged in
+        session["id"]
+    except NameError:
+        return redirect(url_for('index'))
+    else:
+        id = session["id"]
+        data = dbi.get_user_details(where_clause="id = %s", params=(id, ))
+        user_details = data[0]
+        return render_template('test.html',
+                               title='Test Page',
+                               name=user_details["firstname"],
+                               lastname=user_details["lastname"],
+                               username=user_details["username"]
+                               )
+
+
 @app.route('/index')
 def index():
-    id = session["id"]
-    data = dbi.get_user_details(where_clause="id = %s",
-                                     params=(id, ))
-    user_details = data[0]
-    return render_template('index.html',
-                           title='Home',
-                           name=user_details["firstname"]
-                           )
+    """ Home page """
+    try:  #Test if user is logged in
+        session["id"]
+    except NameError:
+        return redirect(url_for('index'))
+    else:
+        id = session["id"]
+        data = dbi.get_user_details(where_clause="id = %s", params=(id, ))
+        user_details = data[0]
+        return render_template('index.html',
+                               title='Home',
+                               name=user_details["firstname"]
+                               )
