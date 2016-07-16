@@ -75,8 +75,9 @@ def users(username='all'):
 
 @app.route('/index')
 def index():
-    data = dbi.get_user_details(where_clause = "id = %s",
-                                     params = (id, ))
+    id = session["id"]
+    data = dbi.get_user_details(where_clause="id = %s",
+                                     params=(id, ))
     user_details = data[0]
     return render_template('index.html',
                            title='Home',
