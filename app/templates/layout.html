@@ -1,0 +1,23 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block my_content%}
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    Welcome: {{ name }}
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="create_ticket.html">Create a ticket.<span class="sr-only">(current)</span></a></li>
+                        <li><a href="view_tickets.html">View Tickets</a></li>
+                        <li><a href="#">Logout</a></li>
+                        <li><a href="#">Link</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+{% endblock %}
