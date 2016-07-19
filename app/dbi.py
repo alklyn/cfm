@@ -4,7 +4,7 @@ from bcrypt import gensalt, hashpw
 server = {
     "host": "localhost",
     "user": "cfm",
-    "passwd": "1T3r0Nrul3z*",
+    "passwd": "1T3r0Nrul3z*w-t-f",
     "database": "programme_db"
 }
 
