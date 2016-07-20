@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, request, url_for, session
 from flask_wtf import Form
 from wtforms import TextField, HiddenField, ValidationError, RadioField,\
     BooleanField, SubmitField, IntegerField, FormField, validators, \
-    PasswordField
+    PasswordField, SelectField
 from wtforms.validators import Required
 
 from app import app
