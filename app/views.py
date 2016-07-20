@@ -97,12 +97,29 @@ def index():
     try:  #Test if user is logged in
         session["id"]
     except NameError:
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     else:
         id = session["id"]
         data = dbi.get_user_details(where_clause="id = %s", params=(id, ))
         user_details = data[0]
         return render_template('index.html',
+                               title='Home',
+                               name=user_details["firstname"]
+                               )
+
+
+@app.route('/create_ticket')
+def create_ticket():
+    """ page for creating new tickets """
+    try:  #Test if user is logged in
+        session["id"]
+    except NameError:
+        return redirect(url_for('login'))
+    else:
+        id = session["id"]
+        data = dbi.get_user_details(where_clause="id = %s", params=(id, ))
+        user_details = data[0]
+        return render_template('create_ticket.html',
                                title='Home',
                                name=user_details["firstname"]
                                )

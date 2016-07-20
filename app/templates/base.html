@@ -1,17 +1,29 @@
-{% extends "bootstrap/base.html" %}
-{% block title %}
-    {% if title %}
-        {{ title }} - CFM
-    {% else %}
-        CFM
-    {% endif %}
-{% endblock %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>
+    {% block title %}
+        {% if title %}
+            {{ title }} - CFM
+        {% else %}
+            CFM
+        {% endif %}
+    {% endblock %}
+    </title>
 
-{% block styles %}
-    <link rel= "stylesheet" href="{{ url_for('static',filename='styles/login.css') }}">
-    {{ super() }}
-{% endblock %}
+    <link rel= "stylesheet" href="{{ url_for('static',filename='bootstrap/css/bootstrap.css') }}">
+    {% block styles %}
+        <link rel= "stylesheet" href="{{ url_for('static',filename='styles/base.css') }}">
+    {% endblock %}
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.js') }}"></script>
+</head>
+
+<body>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <ul>
@@ -23,9 +35,11 @@
 {% endwith %}
 
 {% block content %}
-    {{ super() }}
-    <div class="container-fluid">
-        {% block my_content%}
-        {% endblock %}
+    <div class="container">
+    {% block my_content%}
+    {% endblock %}
     </div>
 {% endblock %}
+
+</body>
+</html>
