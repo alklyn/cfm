@@ -108,6 +108,7 @@ def index():
                                )
 
 class CreateTicketForm(Form):
+    """ Form for creating new tickets """
     phone_number = TextField('phone_number',
                             validators=[Required()],
                             render_kw={"placeholder": "Phone No of caller"})
@@ -122,10 +123,50 @@ class CreateTicketForm(Form):
                          validators=[Required()],
                          choices=provinces)
 
-    districts = []
-    district = SelectField('district',
+    villages = []
+    village = SelectField('village',
                          validators=[Required()],
-                         choices=districts)
+                         choices=villages)
+
+    wards = []
+    ward = SelectField('ward',
+                         validators=[Required()],
+                         choices=wards)
+
+    villages = []
+    village = SelectField('village',
+                         validators=[Required()],
+                         choices=villages)
+
+    partners = []
+    partner = SelectField('partner',
+                         validators=[Required()],
+                         choices=partners)
+
+    programmes = []
+    programme = SelectField('programme',
+                         validators=[Required()],
+                         choices=programmes)
+
+    topics = []
+    topic = SelectField('topic',
+                         validators=[Required()],
+                         choices=topics)
+
+    prioritys = []
+    priority = SelectField('priority',
+                         validators=[Required()],
+                         choices=prioritys)
+
+    #staffmember assigned ticket
+    agents = []
+    agent = SelectField('agent',
+                         validators=[Required()],
+                         choices=agents)
+
+    details = TextField('details',
+                        validators=[Required()],
+                        render_kw={"placeholder": "query/complaint"})
 
     submit_button = SubmitField('submit')
 
