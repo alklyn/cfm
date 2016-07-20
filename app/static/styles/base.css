@@ -31,6 +31,13 @@ button {
     display: flex;
 }
 .nav_username {
+    display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: #FFF0D0;
+ }
+
+.navbar {
+    max-width: 600px;
+    margin: 0 auto;
 }

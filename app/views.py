@@ -12,12 +12,12 @@ from app import dbi
 
 class LoginForm(Form):
     username = TextField('username',
-    validators=[Required()],
-    render_kw={"placeholder": "username"})
+                         validators=[Required()],
+                         render_kw={"placeholder": "username"})
 
     password = PasswordField('password',
-    validators=[Required()],
-    render_kw={"placeholder": "password"})
+                             validators=[Required()],
+                             render_kw={"placeholder": "password"})
     submit_button = SubmitField('log in')
 
     submit = SubmitField("sign in")
@@ -107,6 +107,29 @@ def index():
                                name=user_details["firstname"]
                                )
 
+class CreateTicketForm(Form):
+    phone_number = TextField('phone_number',
+                            validators=[Required()],
+                            render_kw={"placeholder": "Phone No of caller"})
+
+    genders = []
+    gender = SelectField('gender',
+                         validators=[Required()],
+                         choices=genders)
+
+    provinces = []
+    province = SelectField('province',
+                         validators=[Required()],
+                         choices=provinces)
+
+    districts = []
+    district = SelectField('district',
+                         validators=[Required()],
+                         choices=districts)
+
+    submit_button = SubmitField('submit')
+
+
 
 @app.route('/create_ticket')
 def create_ticket():
@@ -120,6 +143,6 @@ def create_ticket():
         data = dbi.get_user_details(where_clause="id = %s", params=(id, ))
         user_details = data[0]
         return render_template('create_ticket.html',
-                               title='Home',
+                               title='Create Ticket',
                                name=user_details["firstname"]
                                )
