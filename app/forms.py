@@ -40,7 +40,7 @@ class CreateTicketForm(Form):
                            choices=provinces)
 
     districts = prep_select("district")  #list of id, district tuples
-    district = SelectField('district',
+    district = SelectField('District',
                            validators=[Required()],
                            choices=districts)
 
@@ -59,12 +59,12 @@ class CreateTicketForm(Form):
                        validators=[Required()],
                        choices=wards)
 
-    partners = []
-    partner = SelectField('partner',
+    partners = prep_select("partner")  #list of id, partner tuples
+    partner = SelectField('Cooperating Partner',
                           validators=[Required()],
                           choices=partners)
 
-    programmes = []
+    programmes = prep_select("programme")  #list of id, programme tuples
     programme = SelectField('Programme',
                             validators=[Required()],
                             choices=programmes)

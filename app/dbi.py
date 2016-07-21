@@ -122,6 +122,36 @@ def get_districts(required_columns="*", where_clause="%s", params=(1, )):
     return districts
 
 
+def get_partners(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about partners from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    partners = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="partner")
+    return partners
+
+
+def get_programmes(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about programmes from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    programmes = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="programme")
+    return programmes
+
+
 def prep_select(table):
     """Prepare a list of id, user tuples for use in creating selectfields
     in forms.
@@ -156,6 +186,21 @@ def prep_select(table):
         data = [(0, "---Please Select District---")]
         for district in districts:
             data.append((district["id"], district["district_name"]))
+
+    elif table == "partner":
+        required_columns = "id, partner_name"
+        partners = get_partners(required_columns=required_columns)
+        data = [(0, "---Please Select Partner---")]
+        for partner in partners:
+            data.append((partner["id"], partner["partner_name"]))
+
+
+    elif table == "programme":
+        required_columns = "id, name"
+        programmes = get_programmes(required_columns=required_columns)
+        data = [(0, "---Please Select programme---")]
+        for programme in programmes:
+            data.append((programme["id"], programme["name"]))
 
     return data
 
