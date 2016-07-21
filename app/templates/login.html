@@ -13,7 +13,13 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="loginbox">
                     <form action="/validate_login" method="post">
-
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                            <div class="form-group error_message">
+                                {{ messages[0] }}
+                            </div>
+                            {% endif %}
+                        {% endwith %}
                         <div class="form-group">
                             {{ form.username.label }} : {{ form.username }}
                         </div>

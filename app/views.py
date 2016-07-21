@@ -26,9 +26,8 @@ def validate_login():
     try:
         username = request.form['username']
         password = request.form['password']
-    except Exception as error:
-        print(error)
-        return redirect(url_for('login'))
+    except NameError as error:
+        message = str(error)
     else:
         if dbi.check_pw(username, password):
             #get_user_details(required_columns="*", where_clause="%s", params=(1, )
@@ -37,7 +36,9 @@ def validate_login():
             session["id"] = user_data[0]["id"]
             return redirect(url_for('index'))
         else:
-            return redirect(url_for('login'))
+            message = "Access Denied!"
+    flash(message, "error")
+    return redirect(url_for('login'))
 
 
 @app.route('/users/')
