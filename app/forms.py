@@ -23,7 +23,7 @@ class CreateTicketForm(Form):
                        validators=[Required()],
                        render_kw={"placeholder": "Name of caller"})
 
-    phone_number = TextField('phone_number',
+    phone_number = TextField('phone number',
                              validators=[Required()],
                              render_kw={"placeholder": "Phone No of caller"})
 
