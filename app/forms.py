@@ -17,7 +17,6 @@ class LoginForm(Form):
                              validators=[Required()],
                              render_kw={"placeholder": "password"})
     submit_button = SubmitField('log in')
-
     submit = SubmitField("sign in")
 
 
