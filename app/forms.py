@@ -19,31 +19,31 @@ class LoginForm(Form):
 
 class CreateTicketForm(Form):
     """ Form for creating new tickets """
-    caller = TextField('caller',
+    caller = TextField('Caller',
                        validators=[Required()],
                        render_kw={"placeholder": "Name of caller"})
 
-    phone_number = TextField('phone number',
+    phone_number = TextField('Phone Number',
                              validators=[Required()],
                              render_kw={"placeholder": "Phone No of caller"})
 
     genders = []
-    gender = SelectField('gender',
+    gender = SelectField('Gender',
                          validators=[Required()],
                          choices=genders)
 
     provinces = []
-    province = SelectField('province',
+    province = SelectField('Province',
                            validators=[Required()],
                            choices=provinces)
 
     villages = []
-    village = SelectField('village',
+    village = SelectField('Village',
                           validators=[Required()],
                           choices=villages)
 
     wards = []
-    ward = SelectField('ward',
+    ward = SelectField('Ward',
                        validators=[Required()],
                        choices=wards)
 
@@ -53,28 +53,28 @@ class CreateTicketForm(Form):
                           choices=partners)
 
     programmes = []
-    programme = SelectField('programme',
+    programme = SelectField('Programme',
                             validators=[Required()],
                             choices=programmes)
 
     topics = []
-    topic = SelectField('topic',
+    topic = SelectField('Help Topic',
                         validators=[Required()],
                         choices=topics)
 
     prioritys = []
-    priority = SelectField('priority',
+    priority = SelectField('Priority',
                            validators=[Required()],
                            choices=prioritys)
 
     #staffmember assigned ticket
     agents = []
-    agent = SelectField('agent',
+    agent = SelectField('Assign to',
                         validators=[Required()],
                         choices=agents)
 
-    details = TextField('details',
+    details = TextField('Issue Details',
                         validators=[Required()],
                         render_kw={"placeholder": "query/complaint"})
 
-    submit_button = SubmitField('submit')
+    submit = SubmitField('submit')

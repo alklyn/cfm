@@ -1,4 +1,7 @@
-
+"""
+Various Classes used by the app.
+"""
+from app.dbi import fetch_from_table
 
 class User(UserMixin):
     """
@@ -10,6 +13,7 @@ class User(UserMixin):
     - is_anonymous: Returns True if this is an anonymous user.
     """
     def __init__(self):
+        """Inititialize object """
         self.is_authenticated = False
         self.is_active = False
         self.is_anonymous = False
