@@ -4,7 +4,7 @@ from bcrypt import gensalt, hashpw
 server = {
     "host": "localhost",
     "user": "cfm",
-    "passwd": "1T3r0Nrul3z*",
+    "passwd": "1T3r0Nrul3z*w-t-f",
     "database": "programme_db"
 }
 
@@ -66,21 +66,14 @@ def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
     """
     Get details about users from database
     required_columns: A string containing the columns required from the
-                          query or * for all
+    query or * for all
     where_clause: A string containg the statements after the where clause
     params: A tuple containing all the required parameters
     """
-    db, cursor = connect()
-    query = """
-    select {}
-    from user
-    where {};
-    """.format(required_columns, where_clause)
-    print("query: {}".format(query))
-
-    cursor.execute(query, params)
-    user_details = cursor.fetchall()
-    db.close
+    user_details = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="user")
     return user_details
 
 
