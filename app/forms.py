@@ -29,12 +29,12 @@ class CreateTicketForm(Form):
                              validators=[Required()],
                              render_kw={"placeholder": "Phone No of caller"})
 
-    genders = []
+    genders = prep_select("gender")  #list of id, gender tuples
     gender = SelectField('Gender',
                          validators=[Required()],
                          choices=genders)
 
-    provinces = []
+    provinces = prep_select("province")  #list of id, province tuples
     province = SelectField('Province',
                            validators=[Required()],
                            choices=provinces)

@@ -77,6 +77,36 @@ def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
     return user_details
 
 
+def get_gender(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about gender from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    genders = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="gender")
+    return genders
+
+
+def get_provinces(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about provinces from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    provinces = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="province")
+    return provinces
+
+
 def prep_select(table):
     """Prepare a list of id, user tuples for use in creating selectfields
     in forms.
@@ -92,12 +122,18 @@ def prep_select(table):
             data.append((user["id"], fullname))
 
     elif table == "gender":
-        required_columns = "id, gender"
-        user_details = get_gender(required_columns=required_columns)
-        data = []
-        for user in user_details:
-            fullname = "{0} {1}".format(user["firstname"], user["lastname"])
-            data.append((user["id"], fullname))
+        required_columns = "id, description"
+        genders = get_gender(required_columns=required_columns)
+        data = [(0, "---Please Select Gender---")]
+        for gender in genders:
+            data.append((gender["id"], gender["description"]))
+
+    elif table == "province":
+        required_columns = "id, name"
+        provinces = get_provinces(required_columns=required_columns)
+        data = [(0, "---Please Select Province---")]
+        for province in provinces:
+            data.append((province["id"], province["name"]))
 
     return data
 
