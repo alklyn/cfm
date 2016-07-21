@@ -77,6 +77,31 @@ def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
     return user_details
 
 
+def prep_select(table):
+    """Prepare a list of id, user tuples for use in creating selectfields
+    in forms.
+    output: a list of tuples in as below:
+    (id, "firstname lastname") for the user table.
+    """
+    if table == "user":
+        required_columns = "id, firstname, lastname"
+        user_details = get_user_details(required_columns=required_columns)
+        data = [(0, "---Please Select Agent---")]
+        for user in user_details:
+            fullname = "{0} {1}".format(user["firstname"], user["lastname"])
+            data.append((user["id"], fullname))
+
+    elif table == "gender":
+        required_columns = "id, gender"
+        user_details = get_gender(required_columns=required_columns)
+        data = []
+        for user in user_details:
+            fullname = "{0} {1}".format(user["firstname"], user["lastname"])
+            data.append((user["id"], fullname))
+
+    return data
+
+
 def insert_into_table(table="", columns="", data=()):
     """
     Generic database insertion code.

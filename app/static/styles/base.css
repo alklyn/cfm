@@ -34,9 +34,14 @@ button {
     max-width: 300px;
 }
 
+.ticket{
+    text-align: left;
+    max-width: 400px;
+}
 .nav_custom{
     display: flex;
 }
+
 .nav_username {
     display: flex;
     flex-direction: column;
