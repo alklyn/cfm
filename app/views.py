@@ -107,7 +107,7 @@ def create_ticket():
         userid = session["id"]
         data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
-        form = CreateTicketForm
+        form = CreateTicketForm()
         return render_template('create_ticket.html',
                                title='Create Ticket',
                                name=user_details["firstname"],
