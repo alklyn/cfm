@@ -4,6 +4,7 @@ All the forms used in the project are defined here.
 from flask_wtf import Form
 from wtforms import TextField, SubmitField, PasswordField, SelectField
 from wtforms.validators import Required
+from app.dbi import get_user_details
 
 class LoginForm(Form):
     """ Handle login """
@@ -68,7 +69,9 @@ class CreateTicketForm(Form):
                            choices=prioritys)
 
     #staffmember assigned ticket
-    agents = []
+    #required_columns="firstname"
+    #agents = get_user_details(required_columns=required_columns)
+    agents = ["alpheus", "tatenda"]
     agent = SelectField('Assign to',
                         validators=[Required()],
                         choices=agents)
