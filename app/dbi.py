@@ -107,6 +107,21 @@ def get_provinces(required_columns="*", where_clause="%s", params=(1, )):
     return provinces
 
 
+def get_districts(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about districts from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    districts = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="district")
+    return districts
+
+
 def prep_select(table):
     """Prepare a list of id, user tuples for use in creating selectfields
     in forms.
@@ -134,6 +149,13 @@ def prep_select(table):
         data = [(0, "---Please Select Province---")]
         for province in provinces:
             data.append((province["id"], province["name"]))
+
+    elif table == "district":
+        required_columns = "id, district_name"
+        districts = get_districts(required_columns=required_columns)
+        data = [(0, "---Please Select District---")]
+        for district in districts:
+            data.append((district["id"], district["district_name"]))
 
     return data
 
