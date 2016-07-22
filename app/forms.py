@@ -3,7 +3,7 @@ All the forms used in the project are defined here.
 """
 from flask_wtf import Form
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
-                    TextAreaField
+                    TextAreaField, validators
 from wtforms.validators import Required
 from app.dbi import prep_select
 
@@ -86,7 +86,7 @@ class CreateTicketForm(Form):
                         choices=agents)
 
     details = TextAreaField('Issue Details',
-                        validators=[Required()],
-                        render_kw={"placeholder": "query/complaint"})
+                            [validators.required()],
+                            render_kw={"placeholder": "query/complaint"})
 
     submit = SubmitField('submit')

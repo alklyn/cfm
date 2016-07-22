@@ -38,6 +38,12 @@ button {
     text-align: left;
     max-width: 500px;
 }
+
+textarea {
+    box-sizing: border-box;
+     width: 100%;
+     min-height: 200px;
+}
 .nav_custom{
     display: flex;
 }
