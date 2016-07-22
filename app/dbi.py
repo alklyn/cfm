@@ -152,6 +152,36 @@ def get_programmes(required_columns="*", where_clause="%s", params=(1, )):
     return programmes
 
 
+def get_topics(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about topics from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    topics = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="topic")
+    return topics
+
+
+def get_prioritys(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about prioritys from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    prioritys = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="priority")
+    return prioritys
+
+
 def prep_select(table):
     """Prepare a list of id, user tuples for use in creating selectfields
     in forms.
@@ -181,26 +211,40 @@ def prep_select(table):
             data.append((province["id"], province["name"]))
 
     elif table == "district":
-        required_columns = "id, district_name"
+        required_columns = "id, name"
         districts = get_districts(required_columns=required_columns)
         data = [(0, "---Please Select District---")]
         for district in districts:
-            data.append((district["id"], district["district_name"]))
+            data.append((district["id"], district["name"]))
 
     elif table == "partner":
-        required_columns = "id, partner_name"
+        required_columns = "id, name"
         partners = get_partners(required_columns=required_columns)
         data = [(0, "---Please Select Partner---")]
         for partner in partners:
-            data.append((partner["id"], partner["partner_name"]))
+            data.append((partner["id"], partner["name"]))
 
 
     elif table == "programme":
         required_columns = "id, name"
         programmes = get_programmes(required_columns=required_columns)
-        data = [(0, "---Please Select programme---")]
+        data = [(0, "---Please Select Programme---")]
         for programme in programmes:
             data.append((programme["id"], programme["name"]))
+
+    elif table == "topic":
+        required_columns = "id, description"
+        topics = get_topics(required_columns=required_columns)
+        data = [(0, "---Please Select Topic---")]
+        for topic in topics:
+            data.append((topic["id"], topic["description"]))
+
+    elif table == "priority":
+        required_columns = "id, description"
+        prioritys = get_prioritys(required_columns=required_columns)
+        data = [(0, "---Please Select Priority---")]
+        for priority in prioritys:
+            data.append((priority["id"], priority["description"]))
 
     return data
 

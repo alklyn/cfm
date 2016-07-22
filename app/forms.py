@@ -69,12 +69,12 @@ class CreateTicketForm(Form):
                             validators=[Required()],
                             choices=programmes)
 
-    topics = []
+    topics = prep_select("topic")  #list of id, topic tuples
     topic = SelectField('Help Topic',
                         validators=[Required()],
                         choices=topics)
 
-    prioritys = []
+    prioritys = prep_select("priority")  #list of id, priority tuples
     priority = SelectField('Priority',
                            validators=[Required()],
                            choices=prioritys)
