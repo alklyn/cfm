@@ -182,7 +182,7 @@ def get_prioritys(required_columns="*", where_clause="%s", params=(1, )):
     return prioritys
 
 
-def prep_select(table):
+def prep_select(table="", constraint=""):
     """Prepare a list of id, user tuples for use in creating selectfields
     in forms.
     output: a list of tuples in as below:
@@ -212,7 +212,11 @@ def prep_select(table):
 
     elif table == "district":
         required_columns = "id, name"
-        districts = get_districts(required_columns=required_columns)
+        where_clause = "province_id = %s"
+        params = (constraint,)
+        districts = get_districts(required_columns=required_columns,
+                                  where_clause=where_clause,
+                                  params=params)
         data = [(0, "---Please Select District---")]
         for district in districts:
             data.append((district["id"], district["name"]))
