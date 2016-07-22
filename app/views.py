@@ -96,7 +96,7 @@ def index():
                                name=user_details["firstname"])
 
 
-@app.route('/create_ticket')
+@app.route('/create_ticket', methods=["GET", "POST"])
 def create_ticket():
     """ page for creating new tickets """
     try:  #Test if user is logged in
