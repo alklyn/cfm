@@ -33,13 +33,17 @@
                             {{ form.province.label }} : {{ form.province }}
                         </div>
 
+                        {% if province_set %}
                         <div class="form-group">
                             {{ form.district.label }} : {{ form.district }}
                         </div>
+                        {% endif %}
 
+                        {% if district_set %}
                         <div class="form-group">
                             {{ form.ward.label }} : {{ form.ward }}
                         </div>
+                        {% endif %}
 
                         <div class="form-group">
                             {{ form.partner.label }} : {{ form.partner }}

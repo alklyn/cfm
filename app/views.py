@@ -3,6 +3,11 @@ from flask import render_template, flash, redirect, request, url_for, session
 from app import app
 from app import dbi
 from app.forms import LoginForm, CreateTicketForm
+from wtforms import TextField, SubmitField, PasswordField, SelectField, \
+                    TextAreaField, validators
+from wtforms.validators import Required
+from app.dbi import prep_select
+import sys
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -103,12 +108,42 @@ def create_ticket():
         session["id"]
     except NameError:
         return redirect(url_for('login'))
-    else:
-        userid = session["id"]
-        data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
-        user_details = data[0]
-        form = CreateTicketForm()
-        return render_template('create_ticket.html',
-                               title='Create Ticket',
-                               name=user_details["firstname"],
-                               form=form)
+
+    userid = session["id"]
+    data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+    user_details = data[0]
+    form = CreateTicketForm()
+    province_set = False
+    district_set = False
+
+    if request.method == "POST":
+        try:  #Check if the province is set
+            if request.form["province"] != "0":
+                province_set = True
+                province_id = int(request.form["province"])
+                #list of id, district tuples
+                districts = prep_select(table="district",
+                                        constraint=province_id)
+                form.district.choices = districts
+        except (AttributeError, NameError):
+            pass
+
+        try:  #Check if the district is set
+            if request.form["district"] != "0":
+                district_set = True
+                district_id = int(request.form["district"])
+                #list of id, ward tuples
+                wards = prep_select(table="ward", constraint=district_id)
+                form.ward.choices = wards
+        except (AttributeError, NameError) as error:
+            message = str(error)
+            pass
+
+    if 'message' in locals():
+        flash(message, "error")
+    return render_template('create_ticket.html',
+                           title='Create Ticket',
+                           name=user_details["firstname"],
+                           form=form,
+                           province_set=province_set,
+                           district_set=district_set)

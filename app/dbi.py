@@ -122,6 +122,21 @@ def get_districts(required_columns="*", where_clause="%s", params=(1, )):
     return districts
 
 
+def get_wards(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about wards from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    wards = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="ward")
+    return wards
+
+
 def get_partners(required_columns="*", where_clause="%s", params=(1, )):
     """
     Get details about partners from database
@@ -220,6 +235,17 @@ def prep_select(table="", constraint=""):
         data = [(0, "---Please Select District---")]
         for district in districts:
             data.append((district["id"], district["name"]))
+
+    elif table == "ward":
+        required_columns = "id, ward_number"
+        where_clause = "district_id = %s"
+        params = (constraint,)
+        wards = get_wards(required_columns=required_columns,
+                                  where_clause=where_clause,
+                                  params=params)
+        data = [(0, "---Please Select Ward---")]
+        for ward in wards:
+            data.append((ward["id"], ward["ward_number"]))
 
     elif table == "partner":
         required_columns = "id, name"
