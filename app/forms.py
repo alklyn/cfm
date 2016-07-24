@@ -21,9 +21,13 @@ class LoginForm(Form):
 
 class CreateTicketForm(Form):
     """ Form for creating new tickets """
-    caller = TextField('Caller',
-                       validators=[Required()],
-                       render_kw={"placeholder": "Name of caller"})
+    caller_firstname = TextField('First name of caller',
+                                 validators=[Required()],
+                                 render_kw={"placeholder": "Name of caller"})
+
+    caller_lastname = TextField('Last name of caller',
+                                validators=[Required()],
+                                render_kw={"placeholder": "Surname of caller"})
 
     phone_number = TextField('Phone Number',
                              validators=[Required()],
