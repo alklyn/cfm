@@ -137,6 +137,21 @@ def get_wards(required_columns="*", where_clause="%s", params=(1, )):
     return wards
 
 
+def get_villages(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about villages from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    villages = fetch_from_table(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params,
+                                    table="village")
+    return villages
+
+
 def get_partners(required_columns="*", where_clause="%s", params=(1, )):
     """
     Get details about partners from database
@@ -246,6 +261,17 @@ def prep_select(table="", constraint=""):
         data = [(0, "---Please Select Ward---")]
         for ward in wards:
             data.append((ward["id"], ward["ward_number"]))
+
+    elif table == "village":
+        required_columns = "id, name"
+        where_clause = "ward_id = %s"
+        params = (constraint,)
+        villages = get_villages(required_columns=required_columns,
+                                  where_clause=where_clause,
+                                  params=params)
+        data = [(0, "---Please Select village---")]
+        for village in villages:
+            data.append((village["id"], village["name"]))
 
     elif table == "partner":
         required_columns = "id, name"

@@ -45,6 +45,12 @@
                         </div>
                         {% endif %}
 
+                        {% if ward_set %}
+                        <div class="form-group">
+                            {{ form.village.label }} : {{ form.village }}
+                        </div>
+                        {% endif %}
+
                         <div class="form-group">
                             {{ form.partner.label }} : {{ form.partner }}
                         </div>

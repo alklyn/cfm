@@ -6,6 +6,7 @@ from app.forms import LoginForm, CreateTicketForm
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
                     TextAreaField, validators
 from wtforms.validators import Required
+from werkzeug.exceptions import HTTPException
 from app.dbi import prep_select
 import sys
 
@@ -115,9 +116,10 @@ def create_ticket():
     form = CreateTicketForm()
     province_set = False
     district_set = False
+    ward_set = False
 
     if request.method == "POST":
-        try:  #Check if the province is set
+        try:  #Check if the province is selected
             if request.form["province"] != "0":
                 province_set = True
                 province_id = int(request.form["province"])
@@ -125,25 +127,37 @@ def create_ticket():
                 districts = prep_select(table="district",
                                         constraint=province_id)
                 form.district.choices = districts
-        except (AttributeError, NameError):
+        except (AttributeError, NameError, HTTPException):
             pass
 
-        try:  #Check if the district is set
+        try:  #Check if the district is selected
             if request.form["district"] != "0":
                 district_set = True
                 district_id = int(request.form["district"])
                 #list of id, ward tuples
                 wards = prep_select(table="ward", constraint=district_id)
                 form.ward.choices = wards
-        except (AttributeError, NameError) as error:
+        except (AttributeError, NameError, HTTPException) as error:
             message = str(error)
             pass
 
-    if 'message' in locals():
-        flash(message, "error")
+        try:  #Check if the ward is selected
+            if request.form["ward"] != "0":
+                ward_set = True
+                ward_id = int(request.form["ward"])
+                #list of id, village tuples
+                villages = prep_select(table="village", constraint=ward_id)
+                form.village.choices = villages
+        except (AttributeError, NameError, HTTPException) as error:
+            message = str(error)
+            pass
+
+    # if 'message' in locals():
+    #     flash(message, "error")
     return render_template('create_ticket.html',
                            title='Create Ticket',
                            name=user_details["firstname"],
                            form=form,
                            province_set=province_set,
-                           district_set=district_set)
+                           district_set=district_set,
+                           ward_set=ward_set)
