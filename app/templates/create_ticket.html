@@ -1,6 +1,8 @@
 <!-- extend from base layout -->
 {% extends "layout.html" %}
 
+
+
 {% block my_content%}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -77,7 +79,9 @@
 
 
                         {{ form.csrf_token }}
-                        {{ form.open_ticket }}
+                        <div class="hide">
+                            {{ form.open_ticket }}
+                        </div>
 
                     </form>
                 </div>
