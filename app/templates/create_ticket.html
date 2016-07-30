@@ -1,7 +1,9 @@
 <!-- extend from base layout -->
 {% extends "layout.html" %}
 
-
+{% block my_js %}
+    <script src="{{ url_for('static',filename='js/create_ticket.js') }}"></script>
+{% endblock %}
 
 {% block my_content%}
         <div class="row">

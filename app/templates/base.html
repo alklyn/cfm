@@ -21,6 +21,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.js') }}"></script>
+    {% block my_js %}
+        <!-- Your js here -->
+    {% endblock %}
 </head>
 
 <body>
