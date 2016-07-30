@@ -1,12 +1,20 @@
-function updateElement(thisid, eid){
+function updateOpenDiv(thisid){
     /*
-    Update an element based on a change on the calling elemrnt.
+    Update the div containing the create_ticket button based on a change
+    on the calling element.
     */
-    var old = ""
-    var new = ""
-    if(document.getElementById(eid)).val().trim().length > 0){
-        oldClass = "hide"
-        newClass = ""
+    var oldClass = "";
+    var newClass = "";
+    eid = "open_ticket_div";
+    openBtn = document.getElementById(thisid)
+    if(openBtn.value.length > 4){
+        // alert('You typed ' + openBtn.value);
+        oldClass = "hide";
+        newClass = "show";
+    }
+    else {
+        oldClass = "show";
+        newClass = "hide";
     }
     changeCSSClass(eid, oldClass, newClass);
 }
@@ -18,5 +26,8 @@ function changeCSSClass(eid, oldClass, newClass){
     old: string: old name of element
     new: string: new name of element
     */
-    document.getElementById(eid).className = document.getElementById(eid).className.replace( /(?:^|\s)old(?!\S)/g , 'new' )
+    // alert("Old class = " + oldClass + ". New class = " + newClass);
+    element = document.getElementById(eid);
+    // alert("Class name = " + element.className);
+    element.className = element.className.replace( oldClass, newClass );
 }

@@ -90,6 +90,6 @@ class CreateTicketForm(Form):
     details = TextAreaField('Issue Details',
                             [validators.InputRequired()],
                             render_kw={"placeholder": "query/complaint",
-                            "onchange": "updateElement(this.id, 'create')"})
+                            "onKeyUp": "updateOpenDiv(this.id)"})
 
-    create = SubmitField('Create ticket')
+    open_ticket = SubmitField('Open ticket')

@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 
 {% block my_js %}
-    <script src="{{ url_for('static',filename='js/create_ticket.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/ticket.js') }}"></script>
 {% endblock %}
 
 {% block my_content%}
@@ -81,7 +81,7 @@
 
 
                         {{ form.csrf_token }}
-                        <div class="hide">
+                        <div id="open_ticket_div" class="hide">
                             {{ form.open_ticket }}
                         </div>
 
