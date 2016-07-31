@@ -1,10 +1,26 @@
-function hideUnhideSubmit(thisId, thisForm){
+function processInput(thisId, thisForm){
+    /*
+    Performs various actions depending on the calling element
+    -Enable location selector dependent on the calling selector.
+    Or unhide/hide the submit button if the fields are all entered/ or any is
+    unset.
+    */
+    if ((thisId == "province") || (thisId == "district") || (thisId == "ward")){
+        thisForm.submit();
+    }
+    else{
+        hideUnhideSubmit();
+    }
+}
+
+
+function hideUnhideSubmit(){
     /*
     Show the submit button only after all the fields have been filled
     */
     var oldClass = "";
     var newClass = "";
-    var isFilled = true;
+    var isCompleted = true;  //Is true when all the fields are completed
     eid = "open_ticket_div"
 
     var elements = document.querySelectorAll(".ticket_element")
@@ -23,13 +39,6 @@ function hideUnhideSubmit(thisId, thisForm){
                 minChars = 6;
                 break;
 
-            case "province":
-            case "district":
-            case "ward":
-                notVal = "0";
-                thisForm.submit();
-                break;
-
             case "village":
             case "gender":
             case "partner":
@@ -46,16 +55,16 @@ function hideUnhideSubmit(thisId, thisForm){
         }
         var type = element.type.toLowerCase();
         if ((type == "text") || (type == "textarea")){ //Text
-            isFilled = (element.value.length >= minChars);
+            isCompleted = (element.value.length >= minChars);
         }
         else {
-            isFilled = (element.value != notVal);
+            isCompleted = (element.value != notVal);
         }
-        if(!isFilled){
+        if(!isCompleted){
             break;
         }
     }
-    if (isFilled){
+    if (isCompleted){
         // alert('You typed ' + openBtn.value);
         oldClass = "hide";
         newClass = "show";
