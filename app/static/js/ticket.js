@@ -5,13 +5,31 @@ function processInput(thisId, thisForm){
     Or unhide/hide the submit button if the fields are all entered/ or any is
     unset.
     */
-    if ((thisId == "province") || (thisId == "district") || (thisId == "ward")){
+    if ((thisId == "province") || (thisId == "district") ||
+        (thisId == "ward")){
         thisForm.submit();
     }
     else{
         hideUnhideSubmit();
     }
 }
+
+
+function processRadio(thisName, thisForm){
+    /*
+    Performs various actions depending on the calling element
+    -Enable location selector dependent on the calling selector.
+    Or unhide/hide the submit button if the fields are all entered/ or any is
+    unset.
+    */
+    if ((thisName == "topic")){
+        thisForm.submit();
+    }
+    else{
+        hideUnhideSubmit();
+    }
+}
+
 
 
 function hideUnhideSubmit(){
@@ -43,7 +61,6 @@ function hideUnhideSubmit(){
             case "gender":
             case "partner":
             case "programme":
-            case "topic":
             case "priority":
             case "agent":
                 notVal = "0";

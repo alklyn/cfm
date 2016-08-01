@@ -113,12 +113,14 @@ def create_ticket():
         return redirect(url_for('login'))
 
     if request.method == "POST":
-        form, province_set, district_set, ward_set = update_selectors()
+        form, province_set, district_set, ward_set, topic_set = \
+        update_selectors()
     else:
         form = TicketForm()
         province_set = False
         district_set = False
         ward_set = False
+        topic_set = False
 
     userid = session["id"]
     data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))

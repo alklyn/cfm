@@ -67,6 +67,12 @@
                             {{ form.topic.label }} : {{ form.topic }}
                         </div>
 
+                        {% if topic_set %}
+                        <div class="form-group">
+                            {{ form.sub_topic.label }} : {{ form.sub_topic }}
+                        </div>
+                        {% endif %}
+
                         <div class="form-group">
                             {{ form.priority.label }} : {{ form.priority }}
                         </div>

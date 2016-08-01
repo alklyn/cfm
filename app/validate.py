@@ -18,6 +18,8 @@ def update_selectors():
     province_set = False
     district_set = False
     ward_set = False
+    topic_set = False
+
     try:  #Check if the province is selected
         if request.form["province"] != "0":
             province_set = True
@@ -49,4 +51,14 @@ def update_selectors():
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
 
-    return form, province_set, district_set, ward_set
+    try:  #Check if the topic is selected
+        if request.form["topic"] != None:
+            topic_set = True
+            topic_id = int(request.form["topic"])
+            #list of id, village tuples
+            villages = prep_select(table="village", constraint=topic_id)
+            form.village.choices = villages
+    except (AttributeError, NameError, HTTPException) as error:
+        message = str(error)
+
+    return form, province_set, district_set, ward_set, topic_set

@@ -197,6 +197,21 @@ def get_topics(required_columns="*", where_clause="%s", params=(1, )):
     return topics
 
 
+def get_sub_topics(required_columns="*", where_clause="%s", params=(1, )):
+    """
+    Get details about sub_topics from database
+    required_columns: A string containing the columns required from the
+    query or * for all
+    where_clause: A string containg the statements after the where clause
+    params: A tuple containing all the required parameters
+    """
+    sub_topics = fetch_from_table(required_columns=required_columns,
+                                  where_clause=where_clause,
+                                  params=params,
+                                  table="topic")
+    return sub_topics
+
+
 def get_prioritys(required_columns="*", where_clause="%s", params=(1, )):
     """
     Get details about prioritys from database
@@ -291,9 +306,20 @@ def prep_select(table="", constraint=""):
     elif table == "topic":
         required_columns = "id, description"
         topics = get_topics(required_columns=required_columns)
-        data = [(0, "---Please Select Topic---")]
+        data = list()
         for topic in topics:
             data.append((topic["id"], topic["description"]))
+
+    elif table == "sub_topic":
+        required_columns = "id, description"
+        where_clause = "topic_id = %s"
+        params = (constraint,)
+        sub_topics = get_sub_topics(required_columns=required_columns,
+                                    where_clause=where_clause,
+                                    params=params)
+        data = [(0, "---Please Select sub_topic---")]
+        for sub_topic in sub_topics:
+            data.append((sub_topic["id"], sub_topic["description"]))
 
     elif table == "priority":
         required_columns = "id, description"
