@@ -154,10 +154,12 @@ def create_ticket():
 
     # if 'message' in locals():
     #     flash(message, "error")
+    country_code = "+263"
     return render_template('create_ticket.html',
                            title='Create Ticket',
                            name=user_details["firstname"],
                            form=form,
                            province_set=province_set,
                            district_set=district_set,
-                           ward_set=ward_set)
+                           ward_set=ward_set,
+                           country_code=country_code)
