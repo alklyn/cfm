@@ -3,7 +3,7 @@ All the forms used in the project are defined here.
 """
 from flask_wtf import Form
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
-                    TextAreaField, validators
+                    TextAreaField, IntegerField, validators
 from wtforms.validators import Required, InputRequired
 from app.dbi import prep_select
 
@@ -35,9 +35,9 @@ class CreateTicketForm(Form):
                                            "class": "ticket_element",
                                            "onKeyUp": "processInput(this.id, this.form)"})
 
-    phone_number = TextField('Phone Number',
+    phone_number = IntegerField('Phone No',
                              validators=[InputRequired()],
-                             render_kw={"placeholder": "Phone No of caller",
+                             render_kw={"placeholder": "777777777",
                                         "class": "ticket_element",
                                         "onKeyUp": "processInput(this.id, this.form)"})
 
