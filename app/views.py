@@ -2,7 +2,7 @@
 from flask import render_template, flash, redirect, request, url_for, session
 from app import app
 from app import dbi
-from app.forms import LoginForm, CreateTicketForm
+from app.forms import LoginForm, TicketForm
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
                     TextAreaField, validators
 from wtforms.validators import Required
@@ -115,7 +115,7 @@ def create_ticket():
     if request.method == "POST":
         form, province_set, district_set, ward_set = update_selectors()
     else:
-        form = CreateTicketForm()
+        form = TicketForm()
         province_set = False
         district_set = False
         ward_set = False
@@ -144,7 +144,7 @@ def update_selectors():
     For example the selector for district will not be shown until the selector
     for province has been set
     """
-    form = CreateTicketForm()
+    form = TicketForm()
     province_set = False
     district_set = False
     ward_set = False

@@ -21,7 +21,7 @@ class LoginForm(Form):
     submit = SubmitField("sign in")
 
 
-class CreateTicketForm(Form):
+class TicketForm(Form):
     """ Form for creating new tickets """
     caller_firstname = TextField('First name of caller',
                                  validators=[InputRequired()],
