@@ -385,21 +385,20 @@ def add_ticket_status(description):
 
 
 def add_ticket(
-               caller_firstname, caller_lastname, phone_number, gender_id,
-               location_id, topic_id, priority_id, partner_id, programme_id,
-               details, created_by, assigned_to):
+               firstname, lastname, phone_number, gender_id, location_id,
+               topic_id, priority_id, partner_id, programme_id, details,
+               created_by, assigned_to):
     """
     Add a ticket  to database.
     """
     table = "ticket"
     columns = """
-        caller_firstname, caller_lastname, gender_id, location_id, topic_id,
+        firstname, lastname, phone_number, gender_id, location_id, topic_id,
         priority_id, partner_id, programme_id, details, created_by, assigned_to
     """
     data = (
-        caller_firstname, caller_lastname, gender_id, location_id, topic_id,
-        priority_id, partner_id, programme_id, details, created_by, assigned_to
-    )
+        firstname, lastname, phone_number, gender_id, location_id, topic_id,
+        priority_id, partner_id, programme_id, details, created_by, assigned_to)
     insert_into_table(table, columns, data)
 
 
