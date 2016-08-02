@@ -10,12 +10,12 @@ function processInput(thisId, thisForm){
         thisForm.submit();
     }
     else{
-        hideUnhideSubmit();
+        hideUnhideSubmit(thisForm);
     }
 }
 
 
-function hideUnhideSubmit(){
+function hideUnhideSubmit(thisForm){
     /*
     Show the submit button only after all the fields have been filled
     */
@@ -67,10 +67,12 @@ function hideUnhideSubmit(){
     }
     if (isCompleted){
         // alert('You typed ' + openBtn.value);
+        thisForm.action = "save_ticket";
         oldClass = "hide";
         newClass = "show";
     }
     else {
+        thisForm.action = "";
         oldClass = "show";
         newClass = "hide";
     }

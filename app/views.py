@@ -6,7 +6,7 @@ from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
 from app import dbi
-from app.dbi import prep_select
+from app.dbi import prep_select, add_ticket
 from app.forms import LoginForm, TicketForm
 from app.validate import update_selectors
 
@@ -137,3 +137,37 @@ def create_ticket():
                            district_set=district_set,
                            ward_set=ward_set,
                            country_code=country_code)
+
+
+@app.route('/save_ticket', methods=["POST"])
+def save_ticket():
+    """Save new tickets
+
+    """
+    try:
+        caller_firstname = request.form["caller_firstname"]
+        caller_lastname = request.form["caller_lastname"]
+        phone_number = request.form["phone_number"]
+        gender_id = request.form["gender"]
+        location_id = request.form["village"]
+        topic_id = request.form["topic"]
+        priority_id = request.form["priority"]
+        partner_id = request.form["partner"]
+        programme_id = request.form["programme"]
+        details = request.form["details"]
+        created_by = session["id"]
+        assigned_to = request.form["agent"]
+    except (AttributeError, NameError, HTTPException) as error:
+        message = str(error)
+    else:
+        add_ticket(
+                   caller_firstname, caller_lastname, phone_number, gender_id,
+                   location_id, topic_id, priority_id, partner_id,
+                   programme_id, details, created_by, assigned_to)
+        userid = session["id"]
+        massage = "Ticket successfully saved."
+        data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+        user_details = data[0]
+    return render_template('index.html',
+                           title='Home',
+                           name=user_details["firstname"])

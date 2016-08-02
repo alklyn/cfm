@@ -385,19 +385,20 @@ def add_ticket_status(description):
 
 
 def add_ticket(
-               caller_name, gender_id, location_id, topic_id, priority_id,
-               partner_id, programme_id, details, created_by, assigned_to):
+               caller_firstname, caller_lastname, phone_number, gender_id,
+               location_id, topic_id, priority_id, partner_id, programme_id,
+               details, created_by, assigned_to):
     """
-    Add a ticket priority level to database.
+    Add a ticket  to database.
     """
-    table = "priority"
+    table = "ticket"
     columns = """
-        caller_name, gender_id, location_id, topic_id, priority_id,
-        partner_id, programme_id, details, created_by, assigned_to
+        caller_firstname, caller_lastname, gender_id, location_id, topic_id,
+        priority_id, partner_id, programme_id, details, created_by, assigned_to
     """
     data = (
-        caller_name, gender_id, location_id, topic_id, priority_id,
-        partner_id, programme_id, details, created_by, assigned_to
+        caller_firstname, caller_lastname, gender_id, location_id, topic_id,
+        priority_id, partner_id, programme_id, details, created_by, assigned_to
     )
     insert_into_table(table, columns, data)
 
