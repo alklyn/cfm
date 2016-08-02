@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="ticket">
-                    <form method="post">
+                    <form name="open-ticket" id="open-ticket" method="post">
                         {% with messages = get_flashed_messages() %}
                             {% if messages %}
                             <div class="form-group error_message">

@@ -31,7 +31,7 @@ class TicketForm(Form):
                             render_kw={
                                 "placeholder": "Name of caller",
                                 "class": "ticket_element",
-                                "onKeyUp": "processInput(this.id, this.form)"})
+                                "onKeyUp": "processInput(this)"})
 
     caller_lastname = TextField(
                         'Last name of caller',
@@ -39,7 +39,7 @@ class TicketForm(Form):
                         render_kw={
                             "placeholder": "Surname of caller",
                             "class": "ticket_element",
-                            "onKeyUp": "processInput(this.id, this.form)"})
+                            "onKeyUp": "processInput(this)"})
 
     phone_number = IntegerField(
                         'Phone No',
@@ -47,7 +47,7 @@ class TicketForm(Form):
                         render_kw={
                             "placeholder": "777777777",
                             "class": "ticket_element",
-                            "onKeyUp": "processInput(this.id, this.form)"})
+                            "onKeyUp": "processInput(this)"})
 
     genders = prep_select("gender")  #list of id, gender tuples
     gender = SelectField(
@@ -56,27 +56,27 @@ class TicketForm(Form):
                 choices=genders,
                 render_kw={
                     "class": "ticket_element",
-                    "onChange": "processInput(this.id, this.form)"})
+                    "onChange": "processInput(this)"})
 
     provinces = prep_select("province")  #list of id, province tuples
     province = SelectField('Province',
                            validators=[InputRequired()],
                            choices=provinces,
                            render_kw={"onChange":
-                                      "processInput(this.id, this.form)"})
+                                      "processInput(this)"})
 
     districts = []  #list of id, district tuples
     district = SelectField(
                     'District',
                     validators=[InputRequired()],
                     choices=districts,
-                    render_kw={"onchange": "processInput(this.id, this.form)"})
+                    render_kw={"onchange": "processInput(this)"})
 
     wards = []
     ward = SelectField('Ward',
                 validators=[InputRequired()],
                 choices=wards,
-                render_kw={"onchange": "processInput(this.id, this.form)",
+                render_kw={"onchange": "processInput(this)",
                            "class": "ticket_element"})
 
     villages = []
@@ -84,7 +84,7 @@ class TicketForm(Form):
                           validators=[InputRequired()],
                           choices=villages,
                           render_kw={"class": "ticket_element",
-                          "onChange": "processInput(this.id, this.form)"})
+                          "onChange": "processInput(this)"})
 
 
     partners = prep_select("partner")  #list of id, partner tuples
@@ -92,28 +92,28 @@ class TicketForm(Form):
                           validators=[InputRequired()],
                           choices=partners,
                           render_kw={"class": "ticket_element",
-                          "onChange": "processInput(this.id, this.form)"})
+                          "onChange": "processInput(this)"})
 
     programmes = prep_select("programme")  #list of id, programme tuples
     programme = SelectField('Programme',
                             validators=[InputRequired()],
                             choices=programmes,
                             render_kw={"class": "ticket_element",
-                            "onChange": "processInput(this.id, this.form)"})
+                            "onChange": "processInput(this)"})
 
     topics = prep_select("topic")  #list of id, topic tuples
     topic = SelectField('Help Topic',
                         validators=[InputRequired()],
                         choices=topics,
                         render_kw={"class": "ticket_element",
-                        "onChange": "processRadio(this)"})
+                        "onChange": "processInput(this)"})
 
     prioritys = prep_select("priority")  #list of id, priority tuples
     priority = SelectField('Priority',
                            validators=[InputRequired()],
                            choices=prioritys,
                            render_kw={"class": "ticket_element",
-                           "onChange": "processInput(this.id, this.form)"})
+                           "onChange": "processInput(this)"})
 
     #staffmember assigned ticket
     agents = prep_select("user")  #list of id, fullname tuples
@@ -121,12 +121,12 @@ class TicketForm(Form):
                         validators=[InputRequired()],
                         choices=agents,
                         render_kw={"class": "ticket_element",
-                        "onChange": "processInput(this.id, this.form)"})
+                        "onChange": "processInput(this)"})
 
     details = TextAreaField('Issue Details',
                             [validators.InputRequired()],
                             render_kw={"placeholder": "query/complaint",
                                        "class": "ticket_element",
-                                       "onKeyUp": "processInput(this.id)"})
+                                       "onKeyUp": "processInput(this)"})
 
     open_ticket = SubmitField('Open ticket')

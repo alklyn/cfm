@@ -1,21 +1,22 @@
-function processInput(thisId, thisForm){
+function processInput(element){
     /*
     Performs various actions depending on the calling element
     -Enable location selector dependent on the calling selector.
     Or unhide/hide the submit button if the fields are all entered/ or any is
     unset.
     */
-    if ((thisId == "province") || (thisId == "district") ||
-        (thisId == "ward")){
-        thisForm.submit();
+    console.log("Element calling processInput: ", element.id);
+    if ((element.id == "province") || (element.id == "district") ||
+        (element.id == "ward")){
+        element.form.submit();
     }
     else{
-        hideUnhideSubmit(thisForm);
+        hideUnhideSubmit(element);
     }
 }
 
 
-function hideUnhideSubmit(thisForm){
+function hideUnhideSubmit(item){
     /*
     Show the submit button only after all the fields have been filled
     */
@@ -23,6 +24,11 @@ function hideUnhideSubmit(thisForm){
     var newClass = "";
     var isCompleted = true;  //Is true when all the fields are completed
     eid = "open_ticket_div"
+
+    //testing
+    var thisForm = item.form;
+    console.log("Element calling this function: ", item.id);
+    console.log("Name of form: ", thisForm.name);
 
     var elements = document.querySelectorAll(".ticket_element")
     var minChars = 2;  //Minimum number of characters
