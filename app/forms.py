@@ -102,18 +102,11 @@ class TicketForm(Form):
                             "onChange": "processInput(this.id, this.form)"})
 
     topics = prep_select("topic")  #list of id, topic tuples
-    topic = RadioField('Help Topic',
+    topic = SelectField('Help Topic',
                         validators=[InputRequired()],
                         choices=topics,
                         render_kw={"class": "ticket_element",
-                        "onChange": "processInput(this.name, this.form)"})
-
-    sub_topics = []
-    sub_topic = RadioField('Help sub_topic',
-                           validators=[InputRequired()],
-                           choices=sub_topics,
-                           render_kw={"class": "ticket_element",
-                           "onChange": "processInput(this.id, this.form)"})
+                        "onChange": "processRadio(this)"})
 
     prioritys = prep_select("priority")  #list of id, priority tuples
     priority = SelectField('Priority',
