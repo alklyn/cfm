@@ -170,11 +170,11 @@ def save_ticket():
                    ward_id, location, topic_id, priority_id, partner_id,
                    programme_id, details, created_by, assigned_to)
         userid = session["id"]
-        massage = "Ticket successfully saved."
+        message = "Ticket successfully saved."
         data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
 
-    #flash(message)
-    return render_template('index.html',
-                           title='Home',
-                           name=user_details["firstname"])
+    flash(message)
+    return redirect(url_for('index'),
+                    title='Home',
+                    name=user_details["firstname"])
