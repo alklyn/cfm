@@ -30,3 +30,9 @@ td, th {
     border: 1px solid #ccc;
     text-align: left;
 }
+
+table tr td+td+td {
+    font-size: 100%;
+    font-family: monospace;
+    max-width: 20em;
+}
