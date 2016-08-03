@@ -423,3 +423,21 @@ def check_pw(username, password):
         return valid_pw == hashpw(password.encode("utf-8"), valid_pw)
     else:
         return False
+
+
+# def fetch_from_table(
+#                     required_columns="*",
+#                     where_clause="%s",
+#                     params=(1, ),
+#                     table='programme',
+#                     select_stmt="select"):
+def get_tickets():
+    """
+    Get ticket details from the db.
+    """
+    tickets = def fetch_from_table(
+                        required_columns=required_columns,
+                        where_clause=where_clause,
+                        params=params,
+                        table='programme',
+                        select_stmt="select"):
