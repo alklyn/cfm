@@ -41,8 +41,7 @@ def fetch_from_table(
                     required_columns="*",
                     where_clause="%s",
                     params=(1, ),
-                    table='programme',
-                    select_stmt="select"):
+                    table='programme'):
     """
     Fetch required data from any table in the the database
     required_columns: A string containing the columns required from the
@@ -52,10 +51,10 @@ def fetch_from_table(
     """
     db, cursor = connect()
     query = """
-    {} {}
+    select {}
     from {}
     where {};
-    """.format(select_stmt, required_columns, table, where_clause)
+    """.format(required_columns, table, where_clause)
     print("query: {}".format(query))
     cursor.execute(query, params)
     data = cursor.fetchall()
@@ -431,14 +430,47 @@ def check_pw(username, password):
 #                     params=(1, ),
 #                     table='programme',
 #                     select_stmt="select"):
-def get_tickets():
+def get_tickets(status_id=1):
     """
     Get ticket details from the db.
+    Output:
+        A list of dictionaries if any tickets are in the db.
+        Each dictionary contains details of a particular ticket.
     """
-    pass
-    # tickets = fetch_from_table(
-    #                     required_columns=required_columns,
-    #                     where_clause=where_clause,
-    #                     params=params,
-    #                     table='programme',
-    #                     select_stmt="select"):
+    required_columns = """
+    LPAD(a.id, 7, '0') as 'ticket_number',
+    CONCAT(a.firstname, " ", a.lastname) as 'name',
+    a.phone_number,
+    b.`description` as 'gender',
+    c.ward_number,
+    a.location,
+    d.description as 'topic',
+    e.description as 'priority',
+    f.name as 'partner',
+    g.name as 'programme',
+    a.details,
+    CONCAT(h.firstname, " ", h.lastname) as 'rep',
+    CONCAT(i.firstname, " ", i.lastname) as 'agent',
+    j.description as 'status',
+    a.dt_created
+    """
+
+    table = """
+    ticket a
+    INNER JOIN `gender` b ON b.id = a.gender_id
+    INNER JOIN `ward` c ON c.id = a.ward_id
+    INNER JOIN `topic` d ON d.id = a.topic_id
+    INNER JOIN `priority` e ON e.id = a.priority_id
+    INNER JOIN `partner` f ON f.id = a.partner_id
+    INNER JOIN `programme` g ON g.id = a.programme_id
+    INNER JOIN `user` h ON h.id = a.created_by
+    INNER JOIN `user` i ON i.id = a.assigned_to
+    INNER JOIN `ticket_status` j ON j.id = a.status_id
+    """
+
+    tickets = fetch_from_table(
+        required_columns=required_columns,
+        where_clause="status_id = %s",
+        params=(status_id,),
+        table=table)
+    return tickets

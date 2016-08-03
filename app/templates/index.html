@@ -1,6 +1,11 @@
 <!-- extend from base layout -->
 {% extends "layout.html" %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel= "stylesheet" href="{{ url_for('static',filename='styles/ticket.css') }}">
+{% endblock %}
+
 {% block my_content%}
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -16,10 +21,78 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group status_message">
-            <table class="tickets">
-            </table>
-        </div>
+        <table class="table-element">
+            <thead class="table-element">
+                <tr class="table-element">
+                    <th  class="table-element">
+                        Ticket Number
+                    </th>
+                    <th  class="table-element">
+                        Caller
+                    </th>
+                    <th  class="table-element">
+                        Phone Number
+                    </th>
+                    <th  class="table-element">
+                        Gender
+                    </th>
+                    <th  class="table-element">
+                        Ward
+                    </th>
+                    <th  class="table-element">
+                        Village
+                    </th>
+                    <th  class="table-element">
+                        Topic
+                    </th>
+                    <th  class="table-element">
+                        Priority
+                    </th>
+                    <th  class="table-element">
+                        Cooperating Partner
+                    </th>
+                    <th  class="table-element">
+                        Programme
+                    </th>
+                    <th  class="table-element">
+                        Details
+                    </th>
+                    <th  class="table-element">
+                        Created By
+                    </th>
+                    <th  class="table-element">
+                        Assigned To
+                    </th>
+                    <th  class="table-element">
+                        Status
+                    </th>
+                    <th  class="table-element">
+                        Date Created
+                    </th>
+                </tr>
+            </thead>
+            {% if tickets %}
+                {% for ticket in tickets %}
+                <tr>
+                    <td> {{ ticket.ticket_number }} </td>
+                    <td> {{ ticket.name }} </td>
+                    <td> {{ ticket.phone_number }} </td>
+                    <td> {{ ticket.gender }} </td>
+                    <td> {{ ticket.ward_number }} </td>
+                    <td> {{ ticket.location }} </td>
+                    <td> {{ ticket.topic }} </td>
+                    <td> {{ ticket.priority }} </td>
+                    <td> {{ ticket.partner }} </td>
+                    <td> {{ ticket.programme }} </td>
+                    <td> {{ ticket.details }} </td>
+                    <td> {{ ticket.rep }} </td>
+                    <td> {{ ticket.agent }} </td>
+                    <td> {{ ticket.status }} </td>
+                    <td> {{ ticket.dt_created }} </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
     </div>
 </div>
 {% endblock %}

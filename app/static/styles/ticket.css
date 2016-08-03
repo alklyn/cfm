@@ -1,3 +1,32 @@
 .ticket_element {
     /**/
 }
+
+.table-element {
+
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #eee;
+}
+
+
+td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}

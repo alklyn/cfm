@@ -3,8 +3,7 @@ from flask import render_template, flash, redirect, request, url_for, session
 from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
-from app import dbi
-from app.dbi import prep_select, add_ticket
+from app.dbi import prep_select, add_ticket, get_tickets, get_user_details
 from app.forms import LoginForm, TicketForm
 from app.validate import update_selectors
 
@@ -35,7 +34,7 @@ def validate_login():
     else:
         if dbi.check_pw(username, password):
             #get_user_details(required_columns="*", where_clause="%s", params=(1, )
-            user_data = dbi.get_user_details(where_clause="username = %s",
+            user_data = get_user_details(where_clause="username = %s",
                                              params=(username, ))
             session["id"] = user_data[0]["id"]
             return redirect(url_for('index'))
@@ -57,7 +56,7 @@ def users(username='all'):
     else:
         where_clause = "username = %s"
         params = (username, )
-    user_details = dbi.get_user_details(where_clause=where_clause,
+    user_details = get_user_details(where_clause=where_clause,
                                         params=params)
     return render_template('users.html',
                            title='Users',
@@ -75,7 +74,7 @@ def test():
         return redirect(url_for('index'))
     else:
         userid = session["id"]
-        data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+        data = get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
         return render_template('test.html',
                                title='Test Page',
@@ -92,12 +91,14 @@ def index():
     except NameError:
         return redirect(url_for('login'))
     else:
+        tickets = get_tickets()
         userid = session["id"]
-        data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+        data = get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
         return render_template('index.html',
                                title='Home',
-                               name=user_details["firstname"])
+                               name=user_details["firstname"],
+                               tickets=tickets)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])
@@ -120,7 +121,7 @@ def create_ticket():
         ward_set = False
 
     userid = session["id"]
-    data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+    data = get_user_details(where_clause="id = %s", params=(userid, ))
     user_details = data[0]
 
     # if 'message' in locals():
@@ -165,7 +166,7 @@ def save_ticket():
     else:
         userid = session["id"]
         message = "Ticket successfully saved."
-        data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
+        data = get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
 
     flash(message)
