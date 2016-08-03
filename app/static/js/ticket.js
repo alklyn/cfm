@@ -39,6 +39,7 @@ function hideUnhideSubmit(item){
         switch (currentID) {
             case "caller_firstname":
             case "caller_lastname":
+            case "village":
                 minChars = 2;
                 break;
 

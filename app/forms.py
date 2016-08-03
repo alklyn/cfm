@@ -80,11 +80,11 @@ class TicketForm(Form):
                            "class": "ticket_element"})
 
     villages = []
-    village = SelectField('Village',
+    village = TextField('Village',
                           validators=[InputRequired()],
-                          choices=villages,
                           render_kw={"class": "ticket_element",
-                          "onChange": "processInput(this)"})
+                          "placeholder": "Village name",
+                          "onKeyUp": "processInput(this)"})
 
 
     partners = prep_select("partner")  #list of id, partner tuples

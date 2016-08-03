@@ -149,7 +149,8 @@ def save_ticket():
         caller_lastname = request.form["caller_lastname"]
         phone_number = request.form["phone_number"]
         gender_id = request.form["gender"]
-        location_id = request.form["village"]
+        ward_id = request.form["ward"]
+        location = request.form["village"]
         topic_id = request.form["topic"]
         priority_id = request.form["priority"]
         partner_id = request.form["partner"]
@@ -157,12 +158,16 @@ def save_ticket():
         details = request.form["details"]
         created_by = session["id"]
         assigned_to = request.form["agent"]
+
+        country_code = "+263"
+        phone_number = country_code + phone_number
+
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
     else:
         add_ticket(
                    caller_firstname, caller_lastname, phone_number, gender_id,
-                   location_id, topic_id, priority_id, partner_id,
+                   ward_id, location, topic_id, priority_id, partner_id,
                    programme_id, details, created_by, assigned_to)
         userid = session["id"]
         massage = "Ticket successfully saved."

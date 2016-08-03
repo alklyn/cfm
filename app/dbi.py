@@ -385,7 +385,7 @@ def add_ticket_status(description):
 
 
 def add_ticket(
-               firstname, lastname, phone_number, gender_id, location_id,
+               firstname, lastname, phone_number, gender_id, ward_id, location,
                topic_id, priority_id, partner_id, programme_id, details,
                created_by, assigned_to):
     """
@@ -393,12 +393,14 @@ def add_ticket(
     """
     table = "ticket"
     columns = """
-        firstname, lastname, phone_number, gender_id, location_id, topic_id,
-        priority_id, partner_id, programme_id, details, created_by, assigned_to
+        firstname, lastname, phone_number, gender_id, ward_id, location,
+        topic_id, priority_id, partner_id, programme_id, details, created_by,
+        assigned_to
     """
     data = (
-        firstname, lastname, phone_number, gender_id, location_id, topic_id,
-        priority_id, partner_id, programme_id, details, created_by, assigned_to)
+        firstname, lastname, phone_number, gender_id, ward_id, location,
+        topic_id, priority_id, partner_id, programme_id, details, created_by,
+        assigned_to)
     insert_into_table(table, columns, data)
 
 

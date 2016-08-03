@@ -45,9 +45,6 @@ def update_selectors():
         if request.form["ward"] != "0":
             ward_set = True
             ward_id = int(request.form["ward"])
-            #list of id, village tuples
-            villages = prep_select(table="village", constraint=ward_id)
-            form.village.choices = villages
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
 
