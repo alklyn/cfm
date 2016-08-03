@@ -452,7 +452,9 @@ def get_tickets(status_id=1):
     CONCAT(h.firstname, " ", h.lastname) as 'rep',
     CONCAT(i.firstname, " ", i.lastname) as 'agent',
     j.description as 'status',
-    a.dt_created
+    a.dt_created,
+    k.name as 'district',
+    l.name as 'province'
     """
 
     table = """
@@ -466,6 +468,8 @@ def get_tickets(status_id=1):
     INNER JOIN `user` h ON h.id = a.created_by
     INNER JOIN `user` i ON i.id = a.assigned_to
     INNER JOIN `ticket_status` j ON j.id = a.status_id
+    INNER JOIN `district` k ON k.id = c.district_id
+    INNER JOIN `province` l ON l.id = k.province_id
     """
 
     tickets = fetch_from_table(
