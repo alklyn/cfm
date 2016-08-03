@@ -41,7 +41,8 @@ def fetch_from_table(
                     required_columns="*",
                     where_clause="%s",
                     params=(1, ),
-                    table='programme'):
+                    table='programme',
+                    select_stmt="select"):
     """
     Fetch required data from any table in the the database
     required_columns: A string containing the columns required from the
@@ -51,10 +52,10 @@ def fetch_from_table(
     """
     db, cursor = connect()
     query = """
-    select {}
+    {} {}
     from {}
     where {};
-    """.format(required_columns, table, where_clause)
+    """.format(select_stmt, required_columns, table, where_clause)
     print("query: {}".format(query))
     cursor.execute(query, params)
     data = cursor.fetchall()
