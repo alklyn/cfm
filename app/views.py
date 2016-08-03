@@ -173,6 +173,8 @@ def save_ticket():
         massage = "Ticket successfully saved."
         data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
+
+    #flash(message)
     return render_template('index.html',
                            title='Home',
                            name=user_details["firstname"])

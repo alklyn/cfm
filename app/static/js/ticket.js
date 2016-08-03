@@ -6,12 +6,19 @@ function processInput(element){
     unset.
     */
     console.log("Element calling processInput: ", element.id);
-    if ((element.id == "province") || (element.id == "district") ||
-        (element.id == "ward")){
-        element.form.submit();
-    }
-    else{
-        hideUnhideSubmit(element);
+
+    switch(element.id){
+        case "province":
+        case "district":
+        case "ward":
+            element.form.submit();
+            break;
+        case "open_ticket":
+            element.disabled = true;  //Prevent double subission
+            element.form.submit();
+            break;
+        default:
+            hideUnhideSubmit(element);
     }
 }
 
@@ -27,8 +34,6 @@ function hideUnhideSubmit(item){
 
     //testing
     var thisForm = item.form;
-    console.log("Element calling this function: ", item.id);
-    console.log("Name of form: ", thisForm.name);
 
     var elements = document.querySelectorAll(".ticket_element")
     var minChars = 2;  //Minimum number of characters

@@ -130,4 +130,4 @@ class TicketForm(Form):
                                        "onKeyUp": "processInput(this)"})
 
     open_ticket = SubmitField('Open ticket',
-                              render_kw={"onClick": "this.disabled"})
+                              render_kw={"onClick": "processInput(this)"})
