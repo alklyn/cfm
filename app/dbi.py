@@ -435,9 +435,10 @@ def get_tickets():
     """
     Get ticket details from the db.
     """
-    tickets = def fetch_from_table(
-                        required_columns=required_columns,
-                        where_clause=where_clause,
-                        params=params,
-                        table='programme',
-                        select_stmt="select"):
+    pass
+    # tickets = fetch_from_table(
+    #                     required_columns=required_columns,
+    #                     where_clause=where_clause,
+    #                     params=params,
+    #                     table='programme',
+    #                     select_stmt="select"):

@@ -1,7 +1,5 @@
 """ All the views in the the app are here """
 from flask import render_template, flash, redirect, request, url_for, session
-from wtforms import TextField, SubmitField, PasswordField, SelectField, \
-                    TextAreaField, validators
 from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
@@ -113,14 +111,13 @@ def create_ticket():
         return redirect(url_for('login'))
 
     if request.method == "POST":
-        form, province_set, district_set, ward_set, topic_set = \
+        form, province_set, district_set, ward_set = \
         update_selectors()
     else:
         form = TicketForm()
         province_set = False
         district_set = False
         ward_set = False
-        topic_set = False
 
     userid = session["id"]
     data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
@@ -145,36 +142,31 @@ def save_ticket():
 
     """
     try:
-        caller_firstname = request.form["caller_firstname"]
-        caller_lastname = request.form["caller_lastname"]
-        phone_number = request.form["phone_number"]
-        gender_id = request.form["gender"]
-        ward_id = request.form["ward"]
-        location = request.form["village"]
-        topic_id = request.form["topic"]
-        priority_id = request.form["priority"]
-        partner_id = request.form["partner"]
-        programme_id = request.form["programme"]
-        details = request.form["details"]
-        created_by = session["id"]
-        assigned_to = request.form["agent"]
-
         country_code = "+263"
-        phone_number = country_code + phone_number
+        phone_number = country_code + request.form["phone_number"]
+
+        add_ticket(
+            request.form["caller_firstname"],
+            request.form["caller_lastname"],
+            phone_number,
+            request.form["gender"],
+            request.form["ward"],
+            request.form["village"],
+            request.form["topic"],
+            request.form["priority"],
+            request.form["partner"],
+            request.form["programme"],
+            request.form["details"],
+            session["id"],
+            request.form["agent"])
 
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
     else:
-        add_ticket(
-                   caller_firstname, caller_lastname, phone_number, gender_id,
-                   ward_id, location, topic_id, priority_id, partner_id,
-                   programme_id, details, created_by, assigned_to)
         userid = session["id"]
         message = "Ticket successfully saved."
         data = dbi.get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
 
     flash(message)
-    return redirect(url_for('index'),
-                    title='Home',
-                    name=user_details["firstname"])
+    return redirect(url_for('index'))
