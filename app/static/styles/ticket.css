@@ -32,7 +32,7 @@ td, th {
 }
 
 table, tr, td, td, td {
-    font-size: 1em;
+    font-size: 10px;
     font-family: monospace;
     max-width: 20em;
 }
