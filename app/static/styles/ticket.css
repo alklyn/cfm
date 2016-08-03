@@ -8,7 +8,7 @@
 
 
 table {
-    width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
 }
 
@@ -31,8 +31,8 @@ td, th {
     text-align: left;
 }
 
-table tr td+td+td {
-    font-size: 100%;
+table, tr, td, td, td {
+    font-size: 1em;
     font-family: monospace;
     max-width: 20em;
 }

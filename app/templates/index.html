@@ -78,6 +78,7 @@
                 </tr>
             </thead>
             {% if tickets %}
+            <tbody>
                 {% for ticket in tickets %}
                 <tr>
                     <td> {{ ticket.ticket_number }} </td>
@@ -99,6 +100,7 @@
                     <td> {{ ticket.dt_created }} </td>
                 </tr>
                 {% endfor %}
+            </tbody>
             {% endif %}
         </table>
     </div>
