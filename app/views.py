@@ -3,7 +3,8 @@ from flask import render_template, flash, redirect, request, url_for, session
 from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
-from app.dbi import prep_select, add_ticket, get_tickets, get_user_details
+from app.dbi import prep_select, add_ticket, get_tickets, get_user_details, \
+    check_pw
 from app.forms import LoginForm, TicketForm
 from app.validate import update_selectors
 
@@ -32,7 +33,7 @@ def validate_login():
     except NameError as error:
         message = str(error)
     else:
-        if dbi.check_pw(username, password):
+        if check_pw(username, password):
             #get_user_details(required_columns="*", where_clause="%s", params=(1, )
             user_data = get_user_details(where_clause="username = %s",
                                              params=(username, ))
