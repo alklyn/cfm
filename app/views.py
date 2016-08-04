@@ -94,11 +94,11 @@ def index():
     else:
         tickets = get_tickets()
         userid = session["id"]
-        data = get_user_details(where_clause="id = %s", params=(userid, ))
-        user_details = data[0]
+        user_details = \
+            get_user_details(where_clause="id = %s", params=(userid, ))[0]
         return render_template('index.html',
                                title='Home',
-                               name=user_details["firstname"],
+                               user_details=user_details,
                                tickets=tickets)
 
 
