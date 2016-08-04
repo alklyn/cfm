@@ -176,3 +176,25 @@ def save_ticket():
 
     flash(message)
     return redirect(url_for('index'))
+
+
+@app.route('/update_ticket')
+def update_ticket():
+    """ Update a ticket """
+    try:  #Test if user is logged in
+        session["id"]
+    except NameError:
+        return redirect(url_for('login'))
+    else:
+        tickets = get_tickets()
+        userid = session["id"]
+        user_details = \
+            get_user_details(where_clause="id = %s", params=(userid, ))[0]
+
+        #Determines how much info is displayed in the table
+        display_all = False
+        return render_template('update_ticket.html',
+                               title='Update Ticket',
+                               user_details=user_details,
+                               tickets=tickets,
+                               display_all=display_all)

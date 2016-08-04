@@ -430,7 +430,7 @@ def check_pw(username, password):
 #                     params=(1, ),
 #                     table='programme',
 #                     select_stmt="select"):
-def get_tickets(status_id=1):
+def get_tickets(where_clause="status_id = %s", params=(1, )):
     """
     Get ticket details from the db.
     Output:
@@ -474,7 +474,7 @@ def get_tickets(status_id=1):
 
     tickets = fetch_from_table(
         required_columns=required_columns,
-        where_clause="status_id = %s",
-        params=(status_id,),
+        where_clause=where_clause,
+        params=params,
         table=table)
     return tickets
