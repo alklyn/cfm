@@ -126,15 +126,15 @@ def create_ticket():
         ward_set = False
 
     userid = session["id"]
-    data = get_user_details(where_clause="id = %s", params=(userid, ))
-    user_details = data[0]
+    user_details = \
+        get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
     # if 'message' in locals():
     #     flash(message, "error")
     country_code = "+263"
     return render_template('create_ticket.html',
                            title='Create Ticket',
-                           name=user_details["firstname"],
+                           user_details=user_details,
                            form=form,
                            province_set=province_set,
                            district_set=district_set,
