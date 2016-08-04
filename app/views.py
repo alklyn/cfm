@@ -178,15 +178,16 @@ def save_ticket():
     return redirect(url_for('index'))
 
 
-@app.route('/update_ticket')
-def update_ticket():
+@app.route('/update_ticket/<ticket_number>')
+def update_ticket(ticket_number):
     """ Update a ticket """
     try:  #Test if user is logged in
         session["id"]
     except NameError:
         return redirect(url_for('login'))
     else:
-        tickets = get_tickets()
+        ticket_id = int(ticket_number)
+        ticket = get_tickets(where_clause="a.id = %s", params=(ticket_id, ))[0]
         userid = session["id"]
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
@@ -196,5 +197,5 @@ def update_ticket():
         return render_template('update_ticket.html',
                                title='Update Ticket',
                                user_details=user_details,
-                               tickets=tickets,
+                               ticket=ticket,
                                display_all=display_all)

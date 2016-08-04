@@ -81,7 +81,7 @@
             <tbody>
                 {% for ticket in tickets %}
                 <tr>
-                    <td> {{ ticket.ticket_number }} </td>
+                    <td> <a href="update_ticket/{{ ticket.ticket_number }}"> {{ ticket.ticket_number }} </a> </td>
                     <td> {{ ticket.name }} </td>
                     <td> {{ ticket.phone_number }} </td>
                     <td> {{ ticket.gender }} </td>
