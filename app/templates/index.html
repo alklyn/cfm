@@ -8,18 +8,18 @@
 
 {% block my_content%}
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4 flash-massages">
             <div class="form-group status_message">
+            {% if messages %}
                 {{ messages[0] }}
+            {% endif %}
             </div>
         </div>
     </div>
-    {% endif %}
 {% endwith %}
 
-<div class="row">
+<div class="row ticket-row">
     <div class="col-md-12">
         <table class="table-element">
             <thead class="table-element">
