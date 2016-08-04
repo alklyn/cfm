@@ -96,10 +96,14 @@ def index():
         userid = session["id"]
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
+
+        #Determines how much info is displayed in the table
+        display_all = False
         return render_template('index.html',
                                title='Home',
                                user_details=user_details,
-                               tickets=tickets)
+                               tickets=tickets,
+                               display_all=display_all)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])
