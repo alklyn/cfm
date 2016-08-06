@@ -86,7 +86,12 @@ def test():
 
 @app.route('/index')
 def index():
-    """ Home page """
+    """ Home page
+
+    Output
+        display_all: boolean
+            Determines whether all the columns are shown or not
+    """
     try:  #Test if user is logged in
         session["id"]
     except NameError:
@@ -98,12 +103,12 @@ def index():
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
         #Determines how much info is displayed in the table
-        display_all = False
+
         return render_template('index.html',
                                title='Home',
                                user_details=user_details,
                                tickets=tickets,
-                               display_all=display_all)
+                               display_all=False)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])

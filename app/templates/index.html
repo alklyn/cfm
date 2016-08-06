@@ -30,9 +30,11 @@
                     <th  class="table-element">
                         Caller
                     </th>
+                    {% if display_all %}
                     <th  class="table-element">
                         Phone Number
                     </th>
+                    {% endif %}
                     <th  class="table-element">
                         Gender
                     </th>
@@ -42,12 +44,14 @@
                     <th  class="table-element">
                         District
                     </th>
+                    {% if display_all %}
                     <th  class="table-element">
                         Ward
                     </th>
                     <th  class="table-element">
                         Village
                     </th>
+                    {% endif %}
                     <th  class="table-element">
                         Topic
                     </th>
@@ -60,9 +64,11 @@
                     <th  class="table-element">
                         Programme
                     </th>
+                    {% if display_all %}
                     <th  class="table-element">
                         Details
                     </th>
+                    {% endif %}
                     <th  class="table-element">
                         Created By
                     </th>
@@ -83,17 +89,23 @@
                 <tr>
                     <td> <a href="update_ticket/{{ ticket.ticket_number }}"> {{ ticket.ticket_number }} </a> </td>
                     <td> {{ ticket.name }} </td>
+                    {% if display_all %}
                     <td> {{ ticket.phone_number }} </td>
+                    {% endif %}
                     <td> {{ ticket.gender }} </td>
                     <td> {{ ticket.province }} </td>
                     <td> {{ ticket.district }} </td>
+                    {% if display_all %}
                     <td> {{ ticket.ward_number }} </td>
                     <td> {{ ticket.location }} </td>
+                    {% endif %}
                     <td> {{ ticket.topic }} </td>
                     <td> {{ ticket.priority }} </td>
                     <td> {{ ticket.partner }} </td>
                     <td> {{ ticket.programme }} </td>
+                    {% if display_all %}
                     <td> {{ ticket.details }} </td>
+                    {% endif %}
                     <td> {{ ticket.rep }} </td>
                     <td> {{ ticket.agent }} </td>
                     <td> {{ ticket.status }} </td>
