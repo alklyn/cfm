@@ -78,7 +78,7 @@
                     <th  class="table-element">
                         Status
                     </th>
-                    <th  class="table-element">
+                    <th  class="table-element cfm-dt">
                         Date Created
                     </th>
                 </tr>
@@ -109,7 +109,7 @@
                     <td> {{ ticket.rep }} </td>
                     <td> {{ ticket.agent }} </td>
                     <td> {{ ticket.status }} </td>
-                    <td> {{ ticket.dt_created }} </td>
+                    <td class="table-element cfm-dt"> {{ ticket.dt_created }} </td>
                 </tr>
                 {% endfor %}
             </tbody>
