@@ -5,12 +5,10 @@
 {% block content %}
     <nav class="navbar navbar-default">
         <div class="container-fluid nav_custom">
-            <div class="nav_username">
-                Welcome {{ user_details.firstname }}
-            </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div>
                 <ul class="nav navbar-nav">
+                    <li><div class="cfm-nav">Welcome {{ user_details.firstname }}</div></li>
                     <li><a href="{{ url_for('index') }}"> Home </a></li>
                     <li><a href="{{ url_for('create_ticket') }}"> Create a ticket </a></li>
                     <li><a href="#">View tickets</a></li>
