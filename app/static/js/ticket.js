@@ -13,24 +13,28 @@ function processInput(element){
         case "ward":
             element.form.submit();
             break;
+        case "update_type":
+            hideUnhideUpdateTicket("")
+
         case "open_ticket":
             element.disabled = true;  //Prevent double subission
             element.form.submit();
             break;
         default:
-            hideUnhideSubmit(element);
+            hideUnhideSubmit(element, "open_ticket_div");
     }
 }
 
 
-function hideUnhideSubmit(item){
+function hideUnhideSubmit(item, eid){
     /*
     Show the submit button only after all the fields have been filled
+    item: the element that called the function
+    eid: id of submit button
     */
-    var oldClass = "";
+    var oldClass = document.getElementById(eid).className;
     var newClass = "";
     var isCompleted = true;  //Is true when all the fields are completed
-    eid = "open_ticket_div"
 
     //testing
     var thisForm = item.form;
@@ -77,15 +81,15 @@ function hideUnhideSubmit(item){
             break;
         }
     }
+    console.log("Old class = ", oldClass);
     if (isCompleted){
-        // alert('You typed ' + openBtn.value);
+        console.log("Form complete");
         thisForm.action = "save_ticket";
-        oldClass = "hide";
         newClass = "show";
     }
     else {
+        console.log("Form not complete");
         thisForm.action = "";
-        oldClass = "show";
         newClass = "hide";
     }
     changeCSSClass(eid, oldClass, newClass);
@@ -96,11 +100,13 @@ function changeCSSClass(eid, oldClass, newClass){
     /*
     Purpose: Change or remove a class from an element
     eid: string: id of element
-    old: string: old name of element
-    new: string: new name of element
+    oldClass: string: old name of class
+    newClass: string: new name of class
     */
     // alert("Old class = " + oldClass + ". New class = " + newClass);
-    element = document.getElementById(eid);
-    // alert("Class name = " + element.className);
-    element.className = element.className.replace( oldClass, newClass );
+    if(newClass != oldClass){
+        element = document.getElementById(eid);
+        // alert("Class name = " + element.className);
+        element.className = element.className.replace( oldClass, newClass );
+    }
 }

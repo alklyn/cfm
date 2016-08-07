@@ -43,7 +43,6 @@ def update_selectors():
     try:  #Check if the ward is selected
         if request.form["ward"] != "0":
             ward_set = True
-            ward_id = int(request.form["ward"])
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
 

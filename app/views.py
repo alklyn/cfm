@@ -197,10 +197,7 @@ def update_ticket(ticket_number):
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
-        #Determines how much info is displayed in the table
-        display_all = False
-        return render_template('update_ticket.html',
-                               title='Update Ticket',
-                               user_details=user_details,
-                               ticket=ticket,
-                               display_all=display_all)
+    return render_template('update_ticket.html',
+                           title='Update Ticket',
+                           user_details=user_details,
+                           ticket=ticket)

@@ -41,7 +41,8 @@ def fetch_from_table(
                     required_columns="*",
                     where_clause="%s",
                     params=(1, ),
-                    table='programme'):
+                    table='programme',
+                    order=""):
     """
     Fetch required data from any table in the the database
     required_columns: A string containing the columns required from the
@@ -53,8 +54,9 @@ def fetch_from_table(
     query = """
     select {}
     from {}
-    where {};
-    """.format(required_columns, table, where_clause)
+    where {}
+    {};
+    """.format(required_columns, table, where_clause, order)
     print("query: {}".format(query))
     cursor.execute(query, params)
     data = cursor.fetchall()
@@ -302,6 +304,14 @@ def prep_select(table="", constraint=""):
         data = [(0, "---Please Select Priority---")]
         for priority in prioritys:
             data.append((priority["id"], priority["description"]))
+
+    elif table == "update_type":
+        update_types = fetch_from_table(required_columns="id, description",
+                                        table=table,
+                                        order="order by id")
+        data = [(0, "---Please Select Option---")]
+        for update_type in update_types:
+            data.append((update_type["id"], update_type["description"]))
 
     return data
 
