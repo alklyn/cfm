@@ -131,3 +131,20 @@ class TicketForm(Form):
 
     open_ticket = SubmitField('Open ticket',
                               render_kw={"onClick": "processInput(this)"})
+
+
+class UpdateTicketForm(Form):
+    """ Form for updating tickets """
+    update_types = prep_select("update_type")  #list of id, update_type tuples
+    update_type = SelectField('update_type',
+                           validators=[InputRequired()],
+                           choices=update_types,
+                           render_kw={"class": "ticket_element",
+                           "onChange": "processInput(this)"})
+
+    post = TextArea('Update',
+                    validators=[InputRequired()],
+                    render_kw={
+                    "placeholder": "Action taken/Solution",
+                    "class": "ticket_element",
+                    "onKeyUp": "processInput(this)"})
