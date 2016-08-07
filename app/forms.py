@@ -142,10 +142,10 @@ class UpdateTicketForm(Form):
                            render_kw={"class": "ticket_element",
                            "onChange": "processInput(this)"})
 
-    post = TextAreaField(
+    update_details = TextAreaField(
         'Update',
         validators=[InputRequired()],
         render_kw={
-            "placeholder": "Action taken/Solution",
+            "placeholder": "",
             "class": "ticket_element",
             "onKeyUp": "processInput(this)"})

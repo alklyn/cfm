@@ -1,10 +1,5 @@
 <!-- extend from base layout -->
-{% extends "layout.html" %}
-
-{% block styles %}
-    {{ super() }}
-    <link rel= "stylesheet" href="{{ url_for('static',filename='styles/ticket.css') }}">
-{% endblock %}
+{% extends "create_ticket.html" %}
 
 {% block my_content%}
 {% with messages = get_flashed_messages() %}
@@ -23,6 +18,12 @@
         <div class="col-md-12">
             <div class="ticket">
                 <form name="update-ticket" id="update-ticket" method="post">
+                    <div class="form-group">
+                        {{ form.update_type.label }} : {{ form.update_type }}
+                    </div>
+                    <div class="form-group hide" id="update">
+                        {{ form.update_details.label }} : {{ form.update_details }}
+                    </div>
                 </form>
             </div>
         </div>

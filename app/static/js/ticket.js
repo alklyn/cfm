@@ -14,8 +14,9 @@ function processInput(element){
             element.form.submit();
             break;
         case "update_type":
-            hideUnhideUpdateTicket("")
-
+             //Show or text area for ticket updates
+            showHideTextArea(element, document.getElementById('update'));
+            break;
         case "open_ticket":
             element.disabled = true;  //Prevent double subission
             element.form.submit();
@@ -95,6 +96,36 @@ function hideUnhideSubmit(item, eid){
     changeCSSClass(eid, oldClass, newClass);
 }
 
+
+function showHideTextArea(element, target){
+    /*
+     Show the textArea for entering updates if an action
+     "Update Ticket"/"Close Ticket" is chosen
+    */
+    var oldClass = target.className;
+    var newClass = "";
+    var pHolder = "";
+    var updateArea = document.getElementById('update_details');
+    console.log("Name  = ", updateArea.name)
+
+    switch(element.value){
+        case "1":
+            pHolder = "Action taken";
+            newClass = "show";
+            updateArea.placeholder = pHolder;
+            break;
+        case "2":
+            pHolder = "Solution";
+            newClass = "show";
+            updateArea.placeholder = pHolder;
+            break;
+        default:
+            newClass = "hide";
+    }
+    console.log("Placeholder after = ", updateArea.placeholder)
+    console.log(newClass, " the text area.");
+    changeCSSClass(target.id, oldClass, newClass);
+}
 
 function changeCSSClass(eid, oldClass, newClass){
     /*

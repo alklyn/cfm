@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException
 from app import app
 from app.dbi import prep_select, add_ticket, get_tickets, get_user_details, \
     check_pw
-from app.forms import LoginForm, TicketForm
+from app.forms import LoginForm, TicketForm, UpdateTicketForm
 from app.validate import update_selectors
 
 
@@ -197,7 +197,9 @@ def update_ticket(ticket_number):
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
+    form = UpdateTicketForm()
     return render_template('update_ticket.html',
                            title='Update Ticket',
                            user_details=user_details,
-                           ticket=ticket)
+                           ticket=ticket,
+                           form=form)
