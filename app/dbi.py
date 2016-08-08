@@ -464,7 +464,8 @@ def get_tickets(where_clause="status_id = %s", params=(1, )):
     j.description as 'status',
     a.dt_created,
     k.name as 'district',
-    l.name as 'province'
+    l.name as 'province',
+    a.location
     """
 
     table = """
