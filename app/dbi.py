@@ -416,16 +416,17 @@ def add_ticket(
 
 def check_pw(username, password):
     """
-    Validate supplied usrname & password with the one in the database
+    Validate supplied username & password with the one in the database
     Output: True if successful
     """
     required_columns = "passwd"
     where_clause = "username = %s"
-    params = [username]
-    user_details = get_user_details(
+    params = (username, )
+    user_details = fetch_from_table(
         required_columns=required_columns,
         where_clause=where_clause,
-        params=params)
+        params=params,
+        table="user")
 
     if user_details:
         valid_pw = bytes(user_details[0]["passwd"], 'utf8')
