@@ -3,8 +3,8 @@ from flask import render_template, flash, redirect, request, url_for, session
 from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
-from app.dbi import prep_select, add_ticket, get_tickets, get_user_details, \
-    check_pw
+from app.dbi_read import prep_select, get_tickets, get_user_details, check_pw
+from app.dbi_write import add_ticket
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
 from app.validate import update_selectors
 

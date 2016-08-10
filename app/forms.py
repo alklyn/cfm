@@ -5,7 +5,7 @@ from flask_wtf import Form
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
                     TextAreaField, IntegerField, RadioField, validators
 from wtforms.validators import Required, InputRequired
-from app.dbi import prep_select
+from app.dbi_read import prep_select
 
 class LoginForm(Form):
     """ Handle login """

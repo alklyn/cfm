@@ -3,7 +3,7 @@ A collection of procedures for validating user input.
 """
 from flask import request
 from werkzeug.exceptions import HTTPException
-from app.dbi import prep_select
+from app.dbi_read import prep_select
 from app.forms import TicketForm
 
 
