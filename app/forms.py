@@ -149,3 +149,7 @@ class UpdateTicketForm(Form):
             "placeholder": "",
             "class": "ticket_element",
             "onKeyUp": "processInput(this)"})
+
+    submit_button = SubmitField(
+        'Update ticket',
+        render_kw={"onClick": "processInput(this)"})

@@ -4,6 +4,8 @@ function processInput(element){
     -Enable location selector dependent on the calling selector.
     Or unhide/hide the submit button if the fields are all entered/ or any is
     unset.
+
+    element: Thre element that called this function.
     */
     console.log("Element calling processInput: ", element.id);
 
@@ -14,15 +16,16 @@ function processInput(element){
             element.form.submit();
             break;
         case "update_type":
-             //Show or text area for ticket updates
+            //Show or text area for ticket updates
             showHideTextArea(element, document.getElementById('update'));
             break;
         case "open_ticket":
+        case "update_ticket":
             element.disabled = true;  //Prevent double subission
             element.form.submit();
             break;
         default:
-            hideUnhideSubmit(element, "open_ticket_div");
+            hideUnhideSubmit(element, "submit_div");
     }
 }
 
@@ -54,7 +57,8 @@ function hideUnhideSubmit(item, eid){
                 break;
 
             case "phone_number":
-                minChars = 6;
+            case "update_details":
+                minChars = 8;
                 break;
 
             case "village":
@@ -64,6 +68,7 @@ function hideUnhideSubmit(item, eid){
             case "topic":
             case "priority":
             case "agent":
+            case "update_type":
                 notVal = "0";
                 break;
 
@@ -106,6 +111,7 @@ function showHideTextArea(element, target){
     var newClass = "";
     var pHolder = "";
     var updateArea = document.getElementById('update_details');
+    var updateArea = document.getElementById('submit_div');
     console.log("Name  = ", updateArea.name)
 
     switch(element.value){
@@ -140,4 +146,13 @@ function changeCSSClass(eid, oldClass, newClass){
         // alert("Class name = " + element.className);
         element.className = element.className.replace( oldClass, newClass );
     }
+}
+
+
+function showHideUpdateButton(){
+    /*
+    Display the submit button on the "update_ticket" page only when all the
+    fields in the form have been filled in.
+    */
+    var elements = document.querySelectorAll(".ticket_element")
 }

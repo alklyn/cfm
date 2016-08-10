@@ -48,6 +48,11 @@
                     <div class="form-group hide" id="update">
                         {{ form.update_details.label }} : {{ form.update_details }}
                     </div>
+
+                    {{ form.csrf_token }}
+                    <div class="form-group hide" id="submit_div">
+                        {{ form.submit_button.label }} : {{ form.submit_button }}
+                    </div>
                 </form>
             </div>
         </div>
