@@ -4,7 +4,8 @@ from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
 from app.dbi_read import prep_select, get_tickets, get_user_details, check_pw
-from app.dbi_write import add_ticket
+from app.dbi_write import add_ticket, add_update
+from app.dbi import update_table
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
 from app.validate import update_selectors
 
@@ -213,18 +214,32 @@ def save_ticket_update():
     """
     update_type = request.form["update_type"]
     try:
-        add_ticket_update(
+        add_update(
+            update_type,
             session["ticket_id"],
             request.form["update_details"],
             session["id"])
 
     except (AttributeError, NameError, HTTPException) as error:
-        message = "Error proceccing request."
+        message = str(error)
     else:
         userid = session["id"]
         message = "Update successfully posted."
         data = get_user_details(where_clause="id = %s", params=(userid, ))
         user_details = data[0]
 
+        if update_type == "2":
+            #Close the ticket
+            #update_table(table="", set_string="", data=(), where_string="")
+            set_string = "status_id = %s"  #Corresponds to ticket closed
+            data = (2, session["ticket_id"])
+            where_string = "id = %s"
+            update_table(
+                table="ticket",
+                set_string=set_string,
+                where_string=where_string,
+                data=data
+                )
+            message = "Ticket successfully closed."
     flash(message)
     return redirect(url_for('index'))

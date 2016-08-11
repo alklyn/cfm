@@ -70,11 +70,11 @@ def add_ticket(
     insert_into_table(table, columns, data)
 
 
-def add_update(ticket_id, post, posted_by):
+def add_update(update_type, ticket_id, post, posted_by):
     """
     Insert a new update to a ticket into the database.
     """
     table = "ticket_update"
-    columns = "ticket_id, post, posted_by"
-    data = (ticket_id, post, posted_by)
+    columns = "type_id, ticket_id, post, posted_by"
+    data = (update_type, ticket_id, post, posted_by)
     insert_into_table(table, columns, data)

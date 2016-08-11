@@ -39,9 +39,8 @@ function hideUnhideSubmit(item, eid){
     var oldClass = document.getElementById(eid).className;
     var newClass = "";
     var isCompleted = true;  //Is true when all the fields are completed
-
-    //testing
     var thisForm = item.form;
+    var action = "";
 
     var elements = document.querySelectorAll(".ticket_element")
     var minChars = 2;  //Minimum number of characters
@@ -87,10 +86,19 @@ function hideUnhideSubmit(item, eid){
             break;
         }
     }
+    console.log("ID of form: ", thisForm.id)
+    switch (thisForm.id){
+        case "open-ticket":
+            action = "save_ticket";
+            break;
+        case "update-ticket":
+            action = "../save_ticket_update";
+            break;
+    }
     console.log("Old class = ", oldClass);
     if (isCompleted){
         console.log("Form complete");
-        thisForm.action = "save_ticket";
+        thisForm.action = action;
         newClass = "show";
     }
     else {

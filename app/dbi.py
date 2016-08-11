@@ -68,7 +68,7 @@ def insert_into_table(table="", columns="", data=()):
     conn.close()
 
 
-def update_table(table="", columns="", data=(), where_string =""):
+def update_table(table="", set_string="", data=(), where_string =""):
     """
     Generic code for updateing a table.
     table: name of the table(s)
@@ -84,7 +84,7 @@ def update_table(table="", columns="", data=(), where_string =""):
         UPDATE {}
         SET {}
         WHERE {}
-    """.format(table, )
+    """.format(table, set_string, where_string)
 
     cursor.execute(query, data)
     conn.commit()
