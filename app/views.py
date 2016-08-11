@@ -172,7 +172,7 @@ def save_ticket():
             request.form["agent"])
 
     except (AttributeError, NameError, HTTPException) as error:
-        message = str(error)
+        message = "Error proceccing request."
     else:
         userid = session["id"]
         message = "Ticket successfully saved."
@@ -198,8 +198,33 @@ def update_ticket(ticket_number):
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
     form = UpdateTicketForm()
+    session["ticket_id"] = ticket_id
     return render_template('update_ticket.html',
                            title='Update Ticket',
                            user_details=user_details,
                            ticket=ticket,
                            form=form)
+
+
+@app.route('/save_ticket_update', methods=["POST"])
+def save_ticket_update():
+    """Save update to a ticket.
+
+    """
+    update_type = request.form["update_type"]
+    try:
+        add_ticket_update(
+            session["ticket_id"],
+            request.form["update_details"],
+            session["id"])
+
+    except (AttributeError, NameError, HTTPException) as error:
+        message = "Error proceccing request."
+    else:
+        userid = session["id"]
+        message = "Update successfully posted."
+        data = get_user_details(where_clause="id = %s", params=(userid, ))
+        user_details = data[0]
+
+    flash(message)
+    return redirect(url_for('index'))

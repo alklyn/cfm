@@ -41,8 +41,8 @@ def connect():
 
 def insert_into_table(table="", columns="", data=()):
     """
-    Generic database insertion code.
-    table: name of the table
+    Generic code for inserting data into a table.
+    table: name of the table(s)
     columns: A string containing the columns separated by comma
     data: A tuple containing the data to be inserted corresponding to the
              columns in 'columns'
@@ -62,9 +62,34 @@ def insert_into_table(table="", columns="", data=()):
         VALUES({});
     """.format(table, columns, params)
     print("query: {}".format(query))
+
     cursor.execute(query, data)
     conn.commit()
     conn.close()
+
+
+def update_table(table="", columns="", data=(), where_string =""):
+    """
+    Generic code for updateing a table.
+    table: name of the table(s)
+    set_string: A string containing the columns to be update_details
+                e.g "name = %s, id = %s"
+    data: A tuple containing the data
+    where_string: A string containing the where constraint
+                  e.g  "name = %s, id = %s"
+    """
+
+    conn, cursor = connect()
+    query = """
+        UPDATE {}
+        SET {}
+        WHERE {}
+    """.format(table, )
+
+    cursor.execute(query, data)
+    conn.commit()
+    conn.close()
+
 
 
 def fetch_from_table(
@@ -82,9 +107,9 @@ def fetch_from_table(
     """
     db, cursor = connect()
     query = """
-    select {}
-    from {}
-    where {}
+    SELECT {}
+    FROM {}
+    WHERE {}
     {};
     """.format(required_columns, table, where_clause, order)
     print("query: {}".format(query))

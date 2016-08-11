@@ -147,12 +147,3 @@ function changeCSSClass(eid, oldClass, newClass){
         element.className = element.className.replace( oldClass, newClass );
     }
 }
-
-
-function showHideUpdateButton(){
-    /*
-    Display the submit button on the "update_ticket" page only when all the
-    fields in the form have been filled in.
-    */
-    var elements = document.querySelectorAll(".ticket_element")
-}
