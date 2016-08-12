@@ -198,13 +198,20 @@ def update_ticket(ticket_number):
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
-    form = UpdateTicketForm()
+    if request.method == "POST":
+        form, reassign_set = \
+        update_reassign_selector()
+    else:
+        form = TicketForm()
+        reassign_set = False
+
     session["ticket_id"] = ticket_id
     return render_template('update_ticket.html',
                            title='Update Ticket',
                            user_details=user_details,
                            ticket=ticket,
-                           form=form)
+                           form=form,
+                           reassign_set=reassign_set)
 
 
 @app.route('/save_ticket_update', methods=["POST"])

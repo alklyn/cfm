@@ -162,15 +162,38 @@ def get_prioritys(required_columns="*", where_clause="%s", params=(1, )):
     return prioritys
 
 
-def prep_select(table="", constraint=""):
-    """Prepare a list of id, user tuples for use in creating selectfields
+def prep_select(
+    table="",
+    constraint="",
+    required_columns="*",
+    where_clause="",
+    params=(1, )):
+    """
+    Prepare a list of id, user tuples for use in creating selectfields
     in forms.
+
+    input
+    =====
+    table: A string with the table(s) required.
+    constraint: (to be removed. Superceded by where_clause) A string containing
+    the value used in where statment.
+
+    where_clause: A string containg the statements after the where clause
+    eg " id = %s or staffid != %s"
+
+    params: Atuple containing the data refered to in the query
+
     output: a list of tuples in as below:
+    ======
     (id, "firstname lastname") for the user table.
     """
     if table == "user":
         required_columns = "id, firstname, lastname"
-        user_details = get_user_details(required_columns=required_columns)
+        user_details = fetch_from_table(
+            table=table,
+            required_columns=required_columns,
+            where_clause=where_clause,
+            params=params)
         data = [(0, "---Please Select Agent---")]
         for user in user_details:
             fullname = "{0} {1}".format(user["firstname"], user["lastname"])

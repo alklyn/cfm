@@ -120,7 +120,8 @@ class TicketForm(Form):
             "onChange": "processInput(this)"})
 
     #staffmember assigned ticket
-    agents = prep_select("user")  #list of id, fullname tuples
+    #list of id, fullname tuples
+    agents = prep_select( table="user", where_clause="id != %s", params=(1, ))
     agent = SelectField('Assign to',
         validators=[InputRequired()],
         choices=agents,
@@ -150,9 +151,9 @@ class UpdateTicketForm(Form):
             "class": "ticket_element",
             "onChange": "processInput(this)"})
 
-    #staffmember assigned ticket
+    #staffmember to be re-assigned ticket
     agents = []  #list of id, fullname tuples
-    agent = SelectField('Assign to',
+    agent = SelectField('Re-assign to',
         validators=[InputRequired()],
         choices=agents,
         render_kw={"class": "ticket_element",

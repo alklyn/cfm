@@ -1,7 +1,7 @@
 """
 A collection of procedures for validating user input.
 """
-from flask import request
+from flask import request, session
 from werkzeug.exceptions import HTTPException
 from app.dbi_read import prep_select
 from app.forms import TicketForm
@@ -47,3 +47,19 @@ def update_selectors():
         message = str(error)
 
     return form, province_set, district_set, ward_set
+
+
+def update_reassign_selector():
+    """
+    Show the selector for reassigning ticket depending on if the action
+    selected is to re-assign the ticket to another agent.
+    """
+    try:  #Check if reassign is selected
+        if request.form["reassign"] != "0":
+            reassign_set = True
+            district_id = int(session["reassign"])
+            #list of id, ward tuples
+            wards = prep_select(table="ward", constraint=reassign)
+            form.ward.choices = wards
+    except (AttributeError, NameError, HTTPException) as error:
+        message = str(error)
