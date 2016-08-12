@@ -17,37 +17,43 @@
     <div class="row">
         <div class="col-md-12">
             <div class="ticket">
+                <div class="form-group">
+                    Name of caller: {{ ticket.name }}
+                </div>
+                <div class="form-group">
+                    Phone number: {{ ticket.phone_number }}
+                </div>
+                <div class="form-group">
+                    Gender: {{ ticket.gender }}
+                </div>
+                <div class="form-group">
+                    Province: {{ ticket.province }}
+                </div>
+                <div class="form-group">
+                    District: {{ ticket.district }}
+                </div>
+                <div class="form-group">
+                    Ward Number: {{ ticket.ward_number }}
+                </div>
+                <div class="form-group">
+                    Village: {{ ticket.location }}
+                </div>
+                <div class="class=panel-heading">
+                    Details:
+                </div>
+                <div class="panel panel-body panel-info">
+                    <p>
+                        {{ ticket.details }}
+                    </p>
+                </div>
+                <div class="form-group">
+                    Created By: {{ ticket.rep }}
+                </div>
+                <div class="form-group">
+                    Assigned To: {{ ticket.agent }}
+                </div>
+                <hr>
                 <form name="update-ticket" id="update-ticket" method="post" action="save_ticket_update">
-                    <div class="form-group">
-                        Name of caller: {{ ticket.name }}
-                    </div>
-                    <div class="form-group">
-                        Phone number: {{ ticket.phone_number }}
-                    </div>
-                    <div class="form-group">
-                        Gender: {{ ticket.gender }}
-                    </div>
-                    <div class="form-group">
-                        Province: {{ ticket.province }}
-                    </div>
-                    <div class="form-group">
-                        District: {{ ticket.district }}
-                    </div>
-                    <div class="form-group">
-                        Ward Number: {{ ticket.ward_number }}
-                    </div>
-                    <div class="form-group">
-                        Village: {{ ticket.location }}
-                    </div>
-                    <div class="form-group">
-                        Details: {{ ticket.details }}
-                    </div>
-                    <div class="form-group">
-                        Created By: {{ ticket.rep }}
-                    </div>
-                    <div class="form-group">
-                        Assigned To: {{ ticket.agent }}
-                    </div>
                     <div class="form-group">
                         {{ form.update_type.label }} : {{ form.update_type }}
                     </div>
