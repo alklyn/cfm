@@ -150,6 +150,14 @@ class UpdateTicketForm(Form):
             "class": "ticket_element",
             "onChange": "processInput(this)"})
 
+    #staffmember assigned ticket
+    agents = []  #list of id, fullname tuples
+    agent = SelectField('Assign to',
+        validators=[InputRequired()],
+        choices=agents,
+        render_kw={"class": "ticket_element",
+        "onChange": "processInput(this)"})
+
     update_details = TextAreaField(
         'Update',
         validators=[InputRequired()],
