@@ -3,8 +3,8 @@ A collection of procedures for validating user input.
 """
 from flask import request, session
 from werkzeug.exceptions import HTTPException
-from app.dbi_read import prep_select
-from app.forms import TicketForm
+from app.dbi_read import prep_select, get_tickets
+from app.forms import TicketForm, UpdateTicketForm
 
 
 def update_selectors():
@@ -54,12 +54,23 @@ def update_reassign_selector():
     Show the selector for reassigning ticket depending on if the action
     selected is to re-assign the ticket to another agent.
     """
+    form = UpdateTicketForm()
+    reassign_set = False
     try:  #Check if reassign is selected
-        if request.form["reassign"] != "0":
+        if request.form["update_type"] == "3":
             reassign_set = True
-            district_id = int(session["reassign"])
-            #list of id, ward tuples
-            wards = prep_select(table="ward", constraint=reassign)
-            form.ward.choices = wards
+
     except (AttributeError, NameError, HTTPException) as error:
         message = str(error)
+    else:
+        ticket_id = int(session["ticket_id"])
+        ticket = get_tickets(where_clause="a.id = %s", params=(ticket_id, ))[0]
+        agent_id = ticket["assigned_to"]
+        #list of id, full name tuples excluding the one already assigned the ticket
+        agents = prep_select(
+            table="user",
+            where_clause="id != %s",
+            params=(agent_id, ))
+        form.reassign_ticket.choices = agents
+
+    return form, reassign_set

@@ -7,7 +7,7 @@ from app.dbi_read import prep_select, get_tickets, get_user_details, check_pw
 from app.dbi_write import add_ticket, add_update
 from app.dbi import update_table
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
-from app.validate import update_selectors
+from app.validate import update_selectors, update_reassign_selector
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -184,7 +184,7 @@ def save_ticket():
     return redirect(url_for('index'))
 
 
-@app.route('/update_ticket/<ticket_number>')
+@app.route('/update_ticket/<ticket_number>', methods=["POST", "GET"])
 def update_ticket(ticket_number):
     """ Update a ticket """
     try:  #Test if user is logged in
@@ -199,8 +199,7 @@ def update_ticket(ticket_number):
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
 
     if request.method == "POST":
-        form, reassign_set = \
-        update_reassign_selector()
+        form, reassign_set = update_reassign_selector()
     else:
         form = UpdateTicketForm()
         reassign_set = False

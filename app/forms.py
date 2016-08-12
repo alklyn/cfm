@@ -153,7 +153,7 @@ class UpdateTicketForm(Form):
 
     #staffmember to be re-assigned ticket
     agents = []  #list of id, fullname tuples
-    agent = SelectField('Re-assign to',
+    reassign_ticket = SelectField('Re-assign to',
         validators=[InputRequired()],
         choices=agents,
         render_kw={"class": "ticket_element",

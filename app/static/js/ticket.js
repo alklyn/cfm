@@ -16,6 +16,11 @@ function processInput(element){
             element.form.submit();
             break;
         case "update_type":
+            if(element.value == "3"){
+                element.form.action = "";
+                element.form.submit();
+                break;
+            }
             //Show or text area for ticket updates
             showHideTextArea(element, document.getElementById('update'));
             break;

@@ -329,6 +329,7 @@ def get_tickets(where_clause="status_id = %s", params=(1, )):
     a.details,
     CONCAT(h.firstname, " ", h.lastname) as 'rep',
     CONCAT(i.firstname, " ", i.lastname) as 'agent',
+    a.assigned_to,
     j.description as 'status',
     a.dt_created,
     k.name as 'district',
