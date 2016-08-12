@@ -202,7 +202,7 @@ def update_ticket(ticket_number):
         form, reassign_set = \
         update_reassign_selector()
     else:
-        form = TicketForm()
+        form = UpdateTicketForm()
         reassign_set = False
 
     session["ticket_id"] = ticket_id
