@@ -220,32 +220,42 @@ def save_ticket_update():
     """
     update_type = request.form["update_type"]
     try:
-        add_update(
-            update_type,
-            session["ticket_id"],
-            request.form["update_details"],
-            session["id"])
+        new_agent_id = int(request.form["reassign_ticket"])
+        details = request.form["update_details"]
 
     except (AttributeError, NameError, HTTPException) as error:
-        message = str(error)
-    else:
-        userid = session["id"]
-        message = "Update successfully posted."
-        data = get_user_details(where_clause="id = %s", params=(userid, ))
-        user_details = data[0]
+        #message = str(error)
+        message = "Error. Please contact IT."
+        flash(message)
+        return redirect(url_for('index'))
 
-        if update_type == "2":
-            #Close the ticket
-            #update_table(table="", set_string="", data=(), where_string="")
-            set_string = "status_id = %s"  #Corresponds to ticket closed
-            data = (2, session["ticket_id"])
-            where_string = "id = %s"
-            update_table(
-                table="ticket",
-                set_string=set_string,
-                where_string=where_string,
-                data=data
-                )
-            message = "Ticket successfully closed."
+    userid = session["id"]
+    message = "Update successfully posted."
+    data = get_user_details(where_clause="id = %s", params=(userid, ))
+    user_details = data[0]
+
+    if update_type == "2":
+        #Close the ticket
+        #update_table(table="", set_string="", data=(), where_string="")
+        set_string = "status_id = %s"  #Corresponds to ticket closed
+        data = (2, session["ticket_id"])
+        where_string = "id = %s"
+        update_table(
+            table="ticket",
+            set_string=set_string,
+            where_string=where_string,
+            data=data
+            )
+        message = "Ticket successfully closed."
+    elif update_type == "3":
+        #Re-assign the ticket
+        details = "Ticket reassigned from {} to {}"
+
+    add_update(
+        update_type,
+        session["ticket_id"],
+        details,
+        session["id"])
+
     flash(message)
     return redirect(url_for('index'))
