@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException
 from app import app
 from app.dbi_read import prep_select, get_tickets, get_user_details, check_pw
 from app.dbi_write import add_ticket, add_update
-from app.dbi import update_table
+from app.dbi import update_table, fetch_from_table
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
 from app.validate import update_selectors, update_reassign_selector
 
@@ -216,16 +216,24 @@ def update_ticket(ticket_number):
 @app.route('/save_ticket_update', methods=["POST"])
 def save_ticket_update():
     """Save update to a ticket.
-
+    Will need to refactor this function. It's too big
+    There are 3 possible update types.
+        1. Normal update to a ticket.
+        2. Close ticket.
+        3. Reassign ticket to a different agent.
     """
-    update_type = request.form["update_type"]
+
     try:
-        new_agent_id = int(request.form["reassign_ticket"])
-        details = request.form["update_details"]
+        update_type = request.form["update_type"]
+        if update_type == "3" :
+            #Re-assign Ticket
+            new_agent_id = int(request.form["reassign_ticket"])
+        else:
+            details = request.form["update_details"]
 
     except (AttributeError, NameError, HTTPException) as error:
-        #message = str(error)
-        message = "Error. Please contact IT."
+        message = str(error)
+        #message = "Error. Please contact IT."
         flash(message)
         return redirect(url_for('index'))
 
@@ -239,7 +247,7 @@ def save_ticket_update():
         #update_table(table="", set_string="", data=(), where_string="")
         set_string = "status_id = %s"  #Corresponds to ticket closed
         data = (2, session["ticket_id"])
-        where_string = "id = %s"
+        where_clause = "id = %s"
         update_table(
             table="ticket",
             set_string=set_string,
@@ -247,9 +255,49 @@ def save_ticket_update():
             data=data
             )
         message = "Ticket successfully closed."
+
     elif update_type == "3":
         #Re-assign the ticket
-        details = "Ticket reassigned from {} to {}"
+        #get_tickets(where_clause="status_id = %s", params=(1, ))
+        where_clause="a.id = %s"
+        params = (session["ticket_id"], )
+        ticket = tickets = get_tickets(
+            where_clause=where_clause,
+            params=params)[0]
+
+        agents = fetch_from_table(
+                required_columns="firstname, lastname",
+                where_clause="id = %s",
+                params=(new_agent_id, ),
+                table="user")
+
+        if agents:
+            new_agent = agents[0]
+        else:
+            message = "Failed to re-assign ticket. Please contact IT."
+            flash(message)
+            return redirect(url_for('index'))
+
+        details = "Ticket reassigned from {} to {} {}".format(
+            ticket["rep"],
+            new_agent["firstname"],
+            new_agent["lastname"])
+
+        #Now changed the agent in the ticket table
+        set_string = "assigned_to = %s"
+        data = (new_agent_id, session["ticket_id"])
+        where_string = "id = %s"
+        update_table(
+            table="ticket",
+            set_string=set_string,
+            where_string=where_string,
+            data=data
+            )
+    else:
+        #Invalid option chosen. Somehow?
+        message = "Invalid option chosen. Somehow?"
+        flash(message)
+        return redirect(url_for('index'))
 
     add_update(
         update_type,

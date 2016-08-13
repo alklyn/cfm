@@ -104,6 +104,9 @@ def fetch_from_table(
                       query or * for all
     where_clause: A string containg the statements after the where clause
     params: A tuple containing all the required parameters
+
+    Output: A list of dictionaries if the query is successful otherwise it
+            returns False
     """
     db, cursor = connect()
     query = """
@@ -112,8 +115,16 @@ def fetch_from_table(
     WHERE {}
     {};
     """.format(required_columns, table, where_clause, order)
+
+    print("params = ", params)
     print("query: {}".format(query))
-    cursor.execute(query, params)
-    data = cursor.fetchall()
+    try:
+        cursor.execute(query, params)
+    except Exception as error:
+        data = False   #signify error
+        print(str(error)) #Send to uwsgi log
+    else:
+        data = cursor.fetchall()
+
     db.close
     return data
