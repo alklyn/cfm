@@ -84,17 +84,17 @@
                 <!-- Updates to tickets go here -->
                 {% if ticket_updates %}
                     {% for update in ticket_updates %}
-                        <div class="update-post panel panel-body panel-info">
-                            <div class="post-item  panel panel-body panel-info">
+                        <div class="update-post panel panel-body panel-primary">
+                            <div class="post-item">
                                 Date Posted: {{ update.dt_updated }}
                             </div>
-                            <div class="post-item  panel panel-body panel-info">
+                            <div class="post-item">
                                 Ticket Number: {{ update.ticket_number }}
                             </div>
                             <div class="post-item  panel panel-body panel-info">
                                 Details: <p> {{ update.post }} </p>
                             </div>
-                            <div class="post-item  panel panel-body panel-info">
+                            <div class="post-item">
                                 Posted By: {{ update.rep }}
                             </div>
                         </div>
