@@ -34,6 +34,12 @@ button {
     max-width: 300px;
 }
 
+.cfm-nav {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: #040A04;
+}
+
 .ticket{
     text-align: left;
     max-width: 500px;
