@@ -3,7 +3,8 @@ from flask import render_template, flash, redirect, request, url_for, session
 from wtforms.validators import Required
 from werkzeug.exceptions import HTTPException
 from app import app
-from app.dbi_read import prep_select, get_tickets, get_user_details, check_pw
+from app.dbi_read import prep_select, get_tickets, get_user_details, \
+    check_pw, get_ticket_updates
 from app.dbi_write import add_ticket, add_update
 from app.dbi import update_table, fetch_from_table
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
@@ -194,6 +195,11 @@ def update_ticket(ticket_number):
     else:
         ticket_id = int(ticket_number)
         ticket = get_tickets(where_clause="a.id = %s", params=(ticket_id, ))[0]
+
+        ticket_updates = get_ticket_updates(
+            where_clause="a.ticket_id = %s",
+            params=(ticket_id, ))
+
         userid = session["id"]
         user_details = \
             get_user_details(where_clause="id = %s", params=(userid, ))[0]
@@ -210,7 +216,8 @@ def update_ticket(ticket_number):
                            user_details=user_details,
                            ticket=ticket,
                            form=form,
-                           reassign_set=reassign_set)
+                           reassign_set=reassign_set,
+                           ticket_updates=ticket_updates)
 
 
 @app.route('/save_ticket_update', methods=["POST"])

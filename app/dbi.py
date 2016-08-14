@@ -97,7 +97,7 @@ def fetch_from_table(
                     where_clause="%s",
                     params=(1, ),
                     table='programme',
-                    order=""):
+                    order="id"):
     """
     Fetch required data from any table in the the database
     required_columns: A string containing the columns required from the
@@ -113,7 +113,7 @@ def fetch_from_table(
     SELECT {}
     FROM {}
     WHERE {}
-    {};
+    ORDER BY {};
     """.format(required_columns, table, where_clause, order)
 
     print("params = ", params)

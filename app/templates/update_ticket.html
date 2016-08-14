@@ -44,7 +44,7 @@
                     <div class="form-group">
                         Village: {{ ticket.location }}
                     </div>
-                    <div class="class=panel-heading">
+                    <div class="panel-heading">
                         Details:
                     </div>
                     <div class="panel panel-body panel-info">
@@ -81,7 +81,29 @@
                     </form>
                 </div>
                 <div class="ticket-updates panel panel-body panel-default">
-                    <!-- Updates to tickets go here -->
+                <!-- Updates to tickets go here -->
+                {% if ticket_updates %}
+                    {% for update in ticket-updates %}
+                        <div class="update-post panel panel-body panel-info">
+                            <div class="post-item  panel panel-body panel-info">
+                                Date Posted: {{ update.dt_updated }}
+                            </div>
+                            <div class="post-item  panel panel-body panel-info">
+                                Ticket Number: {{ update.ticket_number }}
+                            </div>
+                            <div class="post-item  panel panel-body panel-info">
+                                Details: <p> {{ update.ticket_number }} </p>
+                            </div>
+                            <div class="post-item  panel panel-body panel-info">
+                                Posted By: {{ update.rep }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="update-post panel panel-body panel-info">
+                        No updates have been posted for this ticket.
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>

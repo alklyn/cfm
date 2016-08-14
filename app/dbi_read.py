@@ -277,9 +277,9 @@ def prep_select(
             data.append((priority["id"], priority["description"]))
 
     elif table == "update_type":
-        update_types = fetch_from_table(required_columns="id, description",
-                                        table=table,
-                                        order="order by id")
+        update_types = fetch_from_table(
+            required_columns="id, description",
+            table=table)
         data = [(0, "---Please Select Option---")]
         for update_type in update_types:
             data.append((update_type["id"], update_type["description"]))
@@ -308,7 +308,11 @@ def check_pw(username, password):
         return False
 
 
-def get_tickets(where_clause="status_id = %s", params=(1, )):
+def get_tickets(
+    where_clause="status_id = %s",
+    params=(1, ),
+    order="a.dt_created"):
+
     """
     Get ticket details from the db.
     Output:
@@ -356,5 +360,42 @@ def get_tickets(where_clause="status_id = %s", params=(1, )):
         required_columns=required_columns,
         where_clause=where_clause,
         params=params,
-        table=table)
+        table=table,
+        order=order)
     return tickets
+
+
+def get_ticket_updates(
+    where_clause="%s",
+    params=(1, ),
+    order="dt_updated DESC"):
+
+    """
+    Get details of ticket updates from the db.
+    Output:
+        A list of dictionaries if any ticket updates are in the db.
+        Each dictionary contains details of a particular ticket.
+    """
+
+    required_columns = """
+    a.id
+    b.description as 'type'
+    LPAD(a.ticket_id, 7, '0') as 'ticket_number',
+    a.post,
+    CONCAT(c.firstname, " ", c.lastname) as 'rep',
+    """
+
+    table = """
+    ticket_update a
+    INNER JOIN `update_type` b ON b.description = a.type_id
+    INNER JOIN `user` c On c.id = a.posted_by
+    """
+
+
+
+    updates = fetch_from_table(
+        required_columns=required_columns,
+        where_clause=where_clause,
+        params=params,
+        table=table)
+    return updates
