@@ -337,4 +337,9 @@ def save_ticket_update():
         session["id"])
 
     flash(message)
-    return redirect(url_for('index'))
+
+    if update_type == "2":
+        return redirect(url_for('index'))
+    else:
+        url = 'update_ticket/{}'.format(session["ticket_id"])
+        return redirect(url)
