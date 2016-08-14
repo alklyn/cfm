@@ -271,7 +271,9 @@ def save_ticket_update():
     data = get_user_details(where_clause="id = %s", params=(userid, ))
     user_details = data[0]
 
-    if update_type == "2":
+    if update_type == "1":
+        pass  #Nothig to do here yet!
+    elif update_type == "2":
         #Close the ticket
         #update_table(table="", set_string="", data=(), where_string="")
         set_string = "status_id = %s"  #Corresponds to ticket closed
