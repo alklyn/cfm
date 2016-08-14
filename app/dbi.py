@@ -97,13 +97,16 @@ def fetch_from_table(
                     where_clause="%s",
                     params=(1, ),
                     table='programme',
-                    order="id"):
+                    order="id",
+                    log_query=False):
     """
     Fetch required data from any table in the the database
     required_columns: A string containing the columns required from the
                       query or * for all
     where_clause: A string containg the statements after the where clause
     params: A tuple containing all the required parameters
+    log_query: Bolean- If true query definition & parameters are added to
+               uwsgi log.
 
     Output: A list of dictionaries if the query is successful otherwise it
             returns False
@@ -116,8 +119,10 @@ def fetch_from_table(
     ORDER BY {};
     """.format(required_columns, table, where_clause, order)
 
-    print("params = ", params)
-    print("query: {}".format(query))
+    if log_query:
+        print("params = ", params)
+        print("query: {}".format(query))
+        
     try:
         cursor.execute(query, params)
     except Exception as error:

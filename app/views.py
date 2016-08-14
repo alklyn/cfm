@@ -73,8 +73,9 @@ def test():
     """
     try:  #Test if user is logged in
         session["id"]
-    except NameError:
-        return redirect(url_for('index'))
+    except (AttributeError, NameError, HTTPException) as error:
+        print(str(error))
+        return redirect(url_for('login'))
     else:
         userid = session["id"]
         data = get_user_details(where_clause="id = %s", params=(userid, ))
@@ -96,19 +97,30 @@ def index():
     """
     try:  #Test if user is logged in
         session["id"]
-    except NameError:
+    except (AttributeError, NameError, HTTPException) as error:
+        print(str(error))
         return redirect(url_for('login'))
     else:
         tickets = get_tickets()
         userid = session["id"]
-        user_details = \
-            get_user_details(where_clause="id = %s", params=(userid, ))[0]
+        user_details = get_user_details(
+            where_clause="id = %s",
+            params=(userid, ),
+            log_query=True)
+
+        if user_details:
+            user_data=user_details[0]
+        else:
+            message = "Error! Please contact IT."
+            flash(message)
+            return redirect(url_for('index'))
+
 
         #Determines how much info is displayed in the table
 
         return render_template('index.html',
                                title='Home',
-                               user_details=user_details,
+                               user_details=user_data,
                                tickets=tickets,
                                display_all=False)
 
@@ -190,19 +202,29 @@ def update_ticket(ticket_number):
     """ Update a ticket """
     try:  #Test if user is logged in
         session["id"]
-    except NameError:
+    except (AttributeError, NameError, HTTPException) as error:
+        message = "Error. Please contact IT."
+        print(str(error))  #send error to log
+        flash(message)
         return redirect(url_for('login'))
+
+    ticket_id = int(ticket_number)
+    tickets = get_tickets(where_clause="a.id = %s", params=(ticket_id, ))
+    if tickets:
+        ticket = tickets[0]
     else:
-        ticket_id = int(ticket_number)
-        ticket = get_tickets(where_clause="a.id = %s", params=(ticket_id, ))[0]
+        message = "Failed to retreive ticket. Please contact IT."
+        flash(message)
+        return redirect(url_for('index'))
 
-        ticket_updates = get_ticket_updates(
-            where_clause="a.ticket_id = %s",
-            params=(ticket_id, ))
+    ticket_updates = get_ticket_updates(
+        where_clause="a.ticket_id = %s",
+        params=(ticket_id, ),
+        log_query=True)
 
-        userid = session["id"]
-        user_details = \
-            get_user_details(where_clause="id = %s", params=(userid, ))[0]
+    userid = session["id"]
+    user_details = \
+        fetch_from_table(where_clause="id = %s", params=(userid, ))[0]
 
     if request.method == "POST":
         form, reassign_set = update_reassign_selector()

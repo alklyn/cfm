@@ -12,7 +12,11 @@ server = {
 }
 
 
-def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
+def get_user_details(
+    required_columns="*",
+    where_clause="%s",
+    params=(1, ),
+    log_query=False):
     """
     Get details about users from database
     required_columns: A string containing the columns required from the
@@ -23,7 +27,8 @@ def get_user_details(required_columns="*", where_clause="%s", params=(1, )):
     user_details = fetch_from_table(required_columns=required_columns,
                                     where_clause=where_clause,
                                     params=params,
-                                    table="user")
+                                    table="user",
+                                    log_query=log_query)
     return user_details
 
 
@@ -311,7 +316,8 @@ def check_pw(username, password):
 def get_tickets(
     where_clause="status_id = %s",
     params=(1, ),
-    order="a.dt_created"):
+    order="a.dt_created",
+    log_query=False):
 
     """
     Get ticket details from the db.
@@ -361,14 +367,16 @@ def get_tickets(
         where_clause=where_clause,
         params=params,
         table=table,
-        order=order)
+        order=order,
+        log_query=log_query)
     return tickets
 
 
 def get_ticket_updates(
     where_clause="%s",
     params=(1, ),
-    order="dt_updated DESC"):
+    order="dt_updated DESC",
+    log_query=False):
 
     """
     Get details of ticket updates from the db.
@@ -378,17 +386,19 @@ def get_ticket_updates(
     """
 
     required_columns = """
-    a.id
-    b.description as 'type'
+    a.id,
+    b.description as 'type',
     LPAD(a.ticket_id, 7, '0') as 'ticket_number',
     a.post,
     CONCAT(c.firstname, " ", c.lastname) as 'rep',
+    a.dt_updated
     """
+
 
     table = """
     ticket_update a
-    INNER JOIN `update_type` b ON b.description = a.type_id
-    INNER JOIN `user` c On c.id = a.posted_by
+    INNER JOIN `update_type` b ON b.id = a.type_id
+    INNER JOIN `user` c ON c.id = a.posted_by
     """
 
 
@@ -397,5 +407,6 @@ def get_ticket_updates(
         required_columns=required_columns,
         where_clause=where_clause,
         params=params,
-        table=table)
+        table=table,
+        log_query=log_query)
     return updates
