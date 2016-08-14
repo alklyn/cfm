@@ -1,6 +1,10 @@
 <!-- extend from base layout -->
 {% extends "create_ticket.html" %}
 
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
 {% block my_content%}
 {% with messages = get_flashed_messages() %}
     <div class="row">
@@ -17,62 +21,68 @@
     <div class="row">
         <div class="col-md-12">
             <div class="ticket">
-                <div class="form-group">
-                    Name of caller: {{ ticket.name }}
-                </div>
-                <div class="form-group">
-                    Phone number: {{ ticket.phone_number }}
-                </div>
-                <div class="form-group">
-                    Gender: {{ ticket.gender }}
-                </div>
-                <div class="form-group">
-                    Province: {{ ticket.province }}
-                </div>
-                <div class="form-group">
-                    District: {{ ticket.district }}
-                </div>
-                <div class="form-group">
-                    Ward Number: {{ ticket.ward_number }}
-                </div>
-                <div class="form-group">
-                    Village: {{ ticket.location }}
-                </div>
-                <div class="class=panel-heading">
-                    Details:
-                </div>
-                <div class="panel panel-body panel-info">
-                    <p>
-                        {{ ticket.details }}
-                    </p>
-                </div>
-                <div class="form-group">
-                    Created By: {{ ticket.rep }}
-                </div>
-                <div class="form-group">
-                    Assigned To: {{ ticket.agent }}
-                </div>
-                <hr>
-                <form name="update-ticket" id="update-ticket" method="post" action="save_ticket_update">
+                <div class="ticket-data panel panel-body panel-default">
+                    <!-- Information about tickets go here -->
                     <div class="form-group">
-                        {{ form.update_type.label }} : {{ form.update_type }}
+                        Name of caller: {{ ticket.name }}
                     </div>
-
-                    {% if reassign_set %}
+                    <div class="form-group">
+                        Phone number: {{ ticket.phone_number }}
+                    </div>
+                    <div class="form-group">
+                        Gender: {{ ticket.gender }}
+                    </div>
+                    <div class="form-group">
+                        Province: {{ ticket.province }}
+                    </div>
+                    <div class="form-group">
+                        District: {{ ticket.district }}
+                    </div>
+                    <div class="form-group">
+                        Ward Number: {{ ticket.ward_number }}
+                    </div>
+                    <div class="form-group">
+                        Village: {{ ticket.location }}
+                    </div>
+                    <div class="class=panel-heading">
+                        Details:
+                    </div>
+                    <div class="panel panel-body panel-info">
+                        <p>
+                            {{ ticket.details }}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        Created By: {{ ticket.rep }}
+                    </div>
+                    <div class="form-group">
+                        Assigned To: {{ ticket.agent }}
+                    </div>
+                    <hr>
+                    <form name="update-ticket" id="update-ticket" method="post" action="save_ticket_update">
                         <div class="form-group">
-                            {{ form.reassign_ticket.label }} : {{ form.reassign_ticket }}
+                            {{ form.update_type.label }} : {{ form.update_type }}
                         </div>
-                    {% else %}
-                        <div class="form-group hide" id="update">
-                            {{ form.update_details.label }} : {{ form.update_details }}
-                        </div>
-                    {% endif %}
 
-                    {{ form.csrf_token }}
-                    <div class="form-group hide" id="submit_div">
-                        {{ form.submit_button.label }} : {{ form.submit_button }}
-                    </div>
-                </form>
+                        {% if reassign_set %}
+                            <div class="form-group">
+                                {{ form.reassign_ticket.label }} : {{ form.reassign_ticket }}
+                            </div>
+                        {% else %}
+                            <div class="form-group hide" id="update">
+                                {{ form.update_details.label }} : {{ form.update_details }}
+                            </div>
+                        {% endif %}
+
+                        {{ form.csrf_token }}
+                        <div class="form-group hide" id="submit_div">
+                            {{ form.submit_button.label }} : {{ form.submit_button }}
+                        </div>
+                    </form>
+                </div>
+                <div class="ticket-updates panel panel-body panel-default">
+                    <!-- Updates to tickets go here -->
+                </div>
             </div>
         </div>
     </div>

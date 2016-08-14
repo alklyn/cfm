@@ -1,6 +1,10 @@
 <!-- extend from base layout -->
 {% extends "base.html" %}
 
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
 
 {% block content %}
     <nav class="navbar navbar-default">

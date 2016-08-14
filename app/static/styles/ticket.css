@@ -4,6 +4,16 @@
 }
 
 
+.ticket{
+    text-align: left;
+    max-width: 100%;
+    display: flex;
+}
+
+.ticket-data, .ticket-updates{
+    max-width: 100%;
+}
+
 table {
     max-width: 100%;
     border-collapse: collapse;

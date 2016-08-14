@@ -40,11 +40,6 @@ button {
     color: #040A04;
 }
 
-.ticket{
-    text-align: left;
-    max-width: 500px;
-}
-
 textarea {
     box-sizing: border-box;
      width: 100%;
