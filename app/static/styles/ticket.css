@@ -10,9 +10,12 @@
     display: flex;
 }
 
-.ticket-data, .ticket-updates{
-    width: 100%;
-    max-width: 100%;
+.ticket-data{
+    width: 40%;
+}
+
+.ticket-updates{
+    width: 60%;
 }
 
 table {
