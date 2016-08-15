@@ -47,7 +47,7 @@ def is_logged_in():
     except (AttributeError, NameError, HTTPException, KeyError) as error:
         print(str(error))
         message = "Please sign in."
-        flash(message)
+        flash(message, "error")
         return False
     else:
         return True

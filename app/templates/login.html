@@ -10,12 +10,17 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="loginbox">
                     <form action="/validate_login" method="post">
-                        {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            <div class="alert alert-danger">
-                                {{ messages[0] }}
-                            </div>
-                            {% endif %}
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% for category, message in messages %}
+                                {% if category == "error" %}
+                                    {% set msg_class = "alert-danger"%}
+                                {% else %}
+                                    {% set msg_class = "alert-success"%}
+                                {% endif %}
+                                <div class="alert {{ msg_class }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                         {% endwith %}
                         <div class="form-group">
                             {{ form.username.label }} : {{ form.username }}
