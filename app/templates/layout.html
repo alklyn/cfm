@@ -15,8 +15,7 @@
                     <li><div class="cfm-nav">Welcome {{ user_details.firstname }}</div></li>
                     <li><a href="{{ url_for('index') }}"> Home </a></li>
                     <li><a href="{{ url_for('create_ticket') }}"> Create a ticket </a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
+                    <li><a href="{{ url_for('logout') }}"> logout </a></li>
 
             </div>
         </div>

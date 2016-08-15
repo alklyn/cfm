@@ -26,6 +26,17 @@ def login():
                            form=form)
 
 
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    """
+    Handles user logout
+    """
+    del session['id']
+    message = "You've successfully logged out."
+    flash(message)
+    return redirect(url_for('login'))
+
+
 @app.route('/validate_login', methods=['POST'])
 def validate_login():
     """ Check if user provided correct password. """
