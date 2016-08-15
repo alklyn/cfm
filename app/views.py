@@ -278,7 +278,7 @@ def save_ticket_update():
         #update_table(table="", set_string="", data=(), where_string="")
         set_string = "status_id = %s"  #Corresponds to ticket closed
         data = (2, session["ticket_id"])
-        where_clause = "id = %s"
+        where_string = "id = %s"
         update_table(
             table="ticket",
             set_string=set_string,
