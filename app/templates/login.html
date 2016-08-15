@@ -14,6 +14,8 @@
                             {% for category, message in messages %}
                                 {% if category == "error" %}
                                     {% set msg_class = "alert-danger"%}
+                                {% elif category == "warning" %}
+                                    {% set msg_class = "alert-warning"%}
                                 {% else %}
                                     {% set msg_class = "alert-success"%}
                                 {% endif %}
