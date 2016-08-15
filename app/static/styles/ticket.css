@@ -12,6 +12,7 @@
 
 .ticket-data{
     width: 40%;
+    overflow: auto;
 }
 
 .ticket-updates{
