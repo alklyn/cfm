@@ -37,6 +37,21 @@ def logout():
     return redirect(url_for('login'))
 
 
+def is_logged_in():
+    """
+    Check if the user is logged in.
+    Return True is user is logged in else return False.
+    """
+    try:  #Test if user is logged in
+        session["id"]
+    except (AttributeError, NameError, HTTPException, KeyError) as error:
+        print(str(error))
+        message = "Please sign in."
+        flash(message)
+        return False
+    else:
+        return True
+
 @app.route('/validate_login', methods=['POST'])
 def validate_login():
     """ Check if user provided correct password. """
@@ -64,6 +79,9 @@ def users(username='all'):
     """Test view.
     To be removed in production system
     """
+    if not is_logged_in():
+        return redirect(url_for('login'))
+
     if username == 'all':
         where_clause = "%s"
         params = (1, )
@@ -82,21 +100,17 @@ def test():
     """Another test view.
     To be removed in production system
     """
-    try:  #Test if user is logged in
-        session["id"]
-    except (AttributeError, NameError, HTTPException) as error:
-        print(str(error))
+    if not is_logged_in():
         return redirect(url_for('login'))
-    else:
-        userid = session["id"]
-        data = get_user_details(where_clause="id = %s", params=(userid, ))
-        user_details = data[0]
-        return render_template('test.html',
-                               title='Test Page',
-                               name=user_details["firstname"],
-                               lastname=user_details["lastname"],
-                               username=user_details["username"])
 
+    userid = session["id"]
+    data = get_user_details(where_clause="id = %s", params=(userid, ))
+    user_details = data[0]
+    return render_template('test.html',
+                           title='Test Page',
+                           name=user_details["firstname"],
+                           lastname=user_details["lastname"],
+                           username=user_details["username"])
 
 @app.route('/index')
 def index():
@@ -106,34 +120,31 @@ def index():
         display_all: boolean
             Determines whether all the columns are shown or not
     """
-    try:  #Test if user is logged in
-        session["id"]
-    except (AttributeError, NameError, HTTPException) as error:
-        print(str(error))
+    if not is_logged_in():
         return redirect(url_for('login'))
+
+    tickets = get_tickets()
+    userid = session["id"]
+    user_details = get_user_details(
+        where_clause="id = %s",
+        params=(userid, ),
+        log_query=True)
+
+    if user_details:
+        user_data=user_details[0]
     else:
-        tickets = get_tickets()
-        userid = session["id"]
-        user_details = get_user_details(
-            where_clause="id = %s",
-            params=(userid, ),
-            log_query=True)
-
-        if user_details:
-            user_data=user_details[0]
-        else:
-            message = "Error! Please contact IT."
-            flash(message)
-            return redirect(url_for('index'))
+        message = "Error! Please contact IT."
+        flash(message)
+        return redirect(url_for('index'))
 
 
-        #Determines how much info is displayed in the table
+    #Determines how much info is displayed in the table
 
-        return render_template('index.html',
-                               title='Home',
-                               user_details=user_data,
-                               tickets=tickets,
-                               display_all=False)
+    return render_template('index.html',
+                           title='Home',
+                           user_details=user_data,
+                           tickets=tickets,
+                           display_all=False)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])
@@ -141,9 +152,7 @@ def create_ticket():
     """ page for creating new tickets
 
     """
-    try:  #Test if user is logged in
-        session["id"]
-    except NameError:
+    if not is_logged_in():
         return redirect(url_for('login'))
 
     if request.method == "POST":
@@ -177,6 +186,9 @@ def save_ticket():
     """Save new tickets
 
     """
+    if not is_logged_in():
+        return redirect(url_for('login'))
+
     try:
         country_code = "+263"
         phone_number = country_code + request.form["phone_number"]
@@ -196,7 +208,7 @@ def save_ticket():
             session["id"],
             request.form["agent"])
 
-    except (AttributeError, NameError, HTTPException) as error:
+    except (AttributeError, NameError, HTTPException, KeyError) as error:
         message = "Error proceccing request."
     else:
         userid = session["id"]
@@ -211,12 +223,7 @@ def save_ticket():
 @app.route('/update_ticket/<ticket_number>', methods=["POST", "GET"])
 def update_ticket(ticket_number):
     """ Update a ticket """
-    try:  #Test if user is logged in
-        session["id"]
-    except (AttributeError, NameError, HTTPException) as error:
-        message = "Error. Please contact IT."
-        print(str(error))  #send error to log
-        flash(message)
+    if not is_logged_in():
         return redirect(url_for('login'))
 
     ticket_id = int(ticket_number)
@@ -262,6 +269,8 @@ def save_ticket_update():
         2. Close ticket.
         3. Reassign ticket to a different agent.
     """
+    if not is_logged_in():
+        return redirect(url_for('login'))
 
     try:
         update_type = request.form["update_type"]
@@ -271,7 +280,7 @@ def save_ticket_update():
         else:
             details = request.form["update_details"]
 
-    except (AttributeError, NameError, HTTPException) as error:
+    except (AttributeError, NameError, HTTPException, KeyError) as error:
         message = str(error)
         #message = "Error. Please contact IT."
         flash(message)
