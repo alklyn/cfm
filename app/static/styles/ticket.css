@@ -8,6 +8,9 @@
     max-width: 80%;
     max-height: 900px;
     display: flex;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px;
 }
 
 .ticket-data{
