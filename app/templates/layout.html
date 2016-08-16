@@ -16,15 +16,34 @@
                     <li><a href="{{ url_for('index') }}"> Home </a></li>
                     <li><a href="{{ url_for('create_ticket') }}"> Create a ticket </a></li>
                     <li><a href="{{ url_for('logout') }}"> logout </a></li>
-
             </div>
         </div>
     </nav>
 
-    {% block my_content%}
-    <div class="container">        
-            <!-- put stuff here -->
+{% block flash_msg %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        {% if category == "error" %}
+            {% set msg_class = "alert-danger"%}
+        {% elif category == "warning" %}
+            {% set msg_class = "alert-warning"%}
+        {% else %}
+            {% set msg_class = "alert-success"%}
+        {% endif %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="alert {{ msg_class }}">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endwith %}
+{% endblock %}
 
-    </div>
+    {% block my_content%}
+        <!-- put stuff here -->
     {% endblock %}
 {% endblock %}
