@@ -237,8 +237,7 @@ def update_ticket(ticket_number):
 
     ticket_updates = get_ticket_updates(
         where_clause="a.ticket_id = %s",
-        params=(ticket_id, ),
-        log_query=True)
+        params=(ticket_id, ))
 
     userid = session["id"]
     user_details = \

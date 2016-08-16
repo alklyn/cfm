@@ -375,7 +375,7 @@ def get_tickets(
 def get_ticket_updates(
     where_clause="%s",
     params=(1, ),
-    order="dt_updated DESC",
+    order="a.dt_updated DESC",
     log_query=False):
 
     """
@@ -408,5 +408,6 @@ def get_ticket_updates(
         where_clause=where_clause,
         params=params,
         table=table,
-        log_query=log_query)
+        log_query=log_query,
+        order=order)
     return updates
