@@ -114,9 +114,14 @@ def test():
                            username=user_details["username"])
 
 @app.route('/index')
-def index():
+@app.route('/index/<status>')
+def index(status='open'):
     """ Home page
 
+    input
+        open: Display only open tickets.
+        closed: Display only closed tickets.
+        all: Display all tickets.
     Output
         display_all: boolean
             Determines whether all the columns are shown or not
@@ -221,6 +226,7 @@ def save_ticket():
     return redirect(url_for('index'))
 
 
+@app.route('/update_ticket', methods=["POST", "GET"])
 @app.route('/update_ticket/<ticket_number>', methods=["POST", "GET"])
 def update_ticket(ticket_number):
     """ Update a ticket """
