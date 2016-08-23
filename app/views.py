@@ -62,9 +62,10 @@ def validate_login():
         message = str(error)
     else:
         if check_pw(username, password):
-            #get_user_details(required_columns="*", where_clause="%s", params=(1, )
-            user_data = get_user_details(where_clause="username = %s",
-                                             params=(username, ))
+            user_data = fetch_from_table(
+                where_clause="username = %s",
+                params=(username, ),
+                table='user')
             session["id"] = user_data[0]["id"]
             return redirect(url_for('index'))
         else:

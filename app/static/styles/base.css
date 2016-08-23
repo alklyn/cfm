@@ -73,3 +73,10 @@ textarea {
    top: -9999px !important;
    left: -9999px !important;
 }
+
+
+/*for separating elements */
+.space {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
