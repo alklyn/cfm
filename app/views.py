@@ -119,6 +119,8 @@ def index(status='open'):
     """ Home page
 
     input
+    =====
+    status:
         open: Display only open tickets.
         closed: Display only closed tickets.
         all: Display all tickets.
@@ -129,7 +131,23 @@ def index(status='open'):
     if not is_logged_in():
         return redirect(url_for('login'))
 
-    tickets = get_tickets()
+    #CSS class for each of the links (open, closed, all)
+    classes = {"open": "", "closed": "", "all": ""}
+    where_clause="status_id = %s"
+    if status == "open":
+        t_status = 1
+        classes["open"] = "class=active"
+    elif status == "closed":
+        t_status = 2
+        classes["closed"] = "class=active"
+    else:
+        classes["all"] = "class=active"
+        t_status = 1
+        where_clause="%s"
+
+    params = (t_status, )
+
+    tickets = get_tickets(where_clause=where_clause ,params=params)
     userid = session["id"]
     user_details = get_user_details(
         where_clause="id = %s",
@@ -150,7 +168,8 @@ def index(status='open'):
                            title='Home',
                            user_details=user_data,
                            tickets=tickets,
-                           display_all=False)
+                           display_all=False,
+                           classes=classes)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])
