@@ -9,7 +9,7 @@ from app.dbi_write import add_ticket, add_update
 from app.dbi import update_table, fetch_from_table
 from app.forms import LoginForm, TicketForm, UpdateTicketForm
 from app.validate import update_selectors, update_reassign_selector
-
+from app.util import Pagination
 
 @app.route('/', methods=["GET", "POST"])
 @app.route('/login', methods=["GET", "POST"])
@@ -113,6 +113,8 @@ def test():
                            lastname=user_details["lastname"],
                            username=user_details["username"])
 
+
+mod = Blueprint('index', __name__)
 @app.route('/index')
 @app.route('/index/<status>')
 def index(status='open'):
@@ -162,14 +164,25 @@ def index(status='open'):
         return redirect(url_for('index'))
 
 
-    #Determines how much info is displayed in the table
+    search = False
+    # q = request.args.get('q')
+    # if q:
+    #     search = True
+
+    page = request.args.get('page', type=int, default=1)
+
+    pagination = Pagination(page=page,
+        total=len(tickets),
+        search=search,
+        record_name='tickets')
 
     return render_template('index.html',
                            title='Home',
                            user_details=user_data,
                            tickets=tickets,
                            display_all=False,
-                           classes=classes)
+                           classes=classes,
+                           pagination=pagination)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])

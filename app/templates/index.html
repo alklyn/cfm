@@ -19,9 +19,14 @@
         </div>
     </div>
 
+        {{ pagination.info }}
+        {{ pagination.links }}
         <table class="table-element">
             <thead class="table-element">
                 <tr class="table-element">
+                    <th  class="table-element">
+                        #
+                    </th>
                     <th  class="table-element">
                         Ticket Number
                     </th>
@@ -85,6 +90,7 @@
             <tbody>
                 {% for ticket in tickets %}
                 <tr>
+                    <td> {{ loop.index + pagination.skip }} </td>
                     <td> <a href="{{url_for('update_ticket')}}/{{ ticket.ticket_number }}"> {{ ticket.ticket_number }} </a> </td>
                     <td> {{ ticket.name }} </td>
                     {% if display_all %}
@@ -113,4 +119,5 @@
             </tbody>
             {% endif %}
         </table>
+        {{ pagination.links }}
 {% endblock %}
