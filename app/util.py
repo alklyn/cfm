@@ -29,6 +29,7 @@ from app.dbi import fetch_from_table
 #         """
 #         return self.id
 
+
 class Pagination(object):
     """from Armin Ronacher
     Handles pagination

@@ -114,10 +114,25 @@ def test():
                            username=user_details["username"])
 
 
-mod = Blueprint('index', __name__)
-@app.route('/index')
-@app.route('/index/<status>')
-def index(status='open'):
+@app.route('/index/')
+def index():
+    """Another test view.
+    To be removed in production system
+    """
+    if not is_logged_in():
+        return redirect(url_for('login'))
+
+    userid = session["id"]
+    data = get_user_details(where_clause="id = %s", params=(userid, ))
+    user_details = data[0]
+    return render_template('index.html',
+                           title='Home',
+                           user_details=user_details)
+
+
+@app.route('/tickets/')
+@app.route('/tickets/<status>')
+def tickets(status='open'):
     """ Home page
 
     input
@@ -164,25 +179,12 @@ def index(status='open'):
         return redirect(url_for('index'))
 
 
-    search = False
-    # q = request.args.get('q')
-    # if q:
-    #     search = True
-
-    page = request.args.get('page', type=int, default=1)
-
-    pagination = Pagination(page=page,
-        total=len(tickets),
-        search=search,
-        record_name='tickets')
-
-    return render_template('index.html',
+    return render_template('tickets.html',
                            title='Home',
                            user_details=user_data,
                            tickets=tickets,
                            display_all=False,
-                           classes=classes,
-                           pagination=pagination)
+                           classes=classes)
 
 
 @app.route('/create_ticket', methods=["GET", "POST"])
