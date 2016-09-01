@@ -152,13 +152,16 @@ def tickets(status='open'):
     classes = {"open": "", "closed": "", "all": ""}
     where_clause="status_id = %s"
     if status == "open":
+        title='Open Tickets'
         t_status = 1
         classes["open"] = "class=active"
     elif status == "closed":
+        title='Closed Tickets'
         t_status = 2
         classes["closed"] = "class=active"
     else:
         classes["all"] = "class=active"
+        title='All Tickets'
         t_status = 1
         where_clause="%s"
 
@@ -180,7 +183,7 @@ def tickets(status='open'):
 
 
     return render_template('tickets.html',
-                           title='Home',
+                           title=title,
                            user_details=user_data,
                            tickets=tickets,
                            display_all=False,
