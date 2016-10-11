@@ -3,19 +3,13 @@ Database conection and generic read & write functions
 """
 import pymysql
 
-server = {
-    "host": "localhost",
-    "user": "cfm",
-    "passwd": "1T3r0Nrul3z*w-t-f",
-    "database": "programme_db"
-}
-
 
 def connect():
     """
     Connect to the mysql database.
     Returns a database connection and a cursor.
     """
+    exec(open("../../cfg.conf").read(), server)
     #print(server)
     try:
         db = pymysql.connect(
@@ -122,7 +116,7 @@ def fetch_from_table(
     if log_query:
         print("params = ", params)
         print("query: {}".format(query))
-        
+
     try:
         cursor.execute(query, params)
     except Exception as error:
