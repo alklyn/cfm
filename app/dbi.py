@@ -2,6 +2,7 @@
 Database conection and generic read & write functions
 """
 import pymysql
+import yaml
 
 
 def connect():
@@ -9,7 +10,8 @@ def connect():
     Connect to the mysql database.
     Returns a database connection and a cursor.
     """
-    exec(open("../../cfg.conf").read(), server)
+    with open('config.yaml', 'r') as f:
+        server = yaml.load(f)
     #print(server)
     try:
         db = pymysql.connect(
