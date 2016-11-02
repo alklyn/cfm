@@ -10,7 +10,7 @@ def connect():
     Connect to the mysql database.
     Returns a database connection and a cursor.
     """
-    with open('config.yaml', 'r') as f:
+    with open('../../config.yaml', 'r') as f:
         server = yaml.load(f)
     #print(server)
     try:
