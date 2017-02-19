@@ -68,7 +68,7 @@ def update_reassign_selector():
         agent_id = ticket["assigned_to"]
         #list of id, full name tuples excluding the one already assigned the ticket
         agents = prep_select(
-            table="user",
+            table="agent",
             where_clause="id != %s",
             params=(agent_id, ))
         form.reassign_ticket.choices = agents

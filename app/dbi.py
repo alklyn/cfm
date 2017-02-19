@@ -2,10 +2,36 @@
 Database conection and generic read & write functions
 """
 import pymysql
+import psycopg2
 import yaml
 
 
-def connect():
+def connect_postgres():
+    """
+    Connect to the mysql database.
+    Returns a database connection and a cursor.
+    """
+    with open('../config.yaml', 'r') as f:
+        server = yaml.load(f)
+    #print(server)
+    try:
+        db = psycopg2.connect(
+            host=server["host"],
+            user=server["user"],
+            password=server["passwd"],
+            dbname=server["database"],
+            autocommit=False
+        )
+    except (psycopg2.Error) as psyco_error:
+        print("Severity: {} ".format(psyco_error.diag.severity))
+        print("Error message: {} ".format(psyco_error.diag.message_primary))
+        exit()
+    else:
+        cursor = db.cursor(psycopg2.cursors.DictCursor)
+        return db, cursor
+
+
+def connect_mysql():
     """
     Connect to the mysql database.
     Returns a database connection and a cursor.
@@ -43,7 +69,7 @@ def insert_into_table(table="", columns="", data=()):
     data: A tuple containing the data to be inserted corresponding to the
              columns in 'columns'
     """
-    conn, cursor = connect()
+    conn, cursor = connect_mysql()
 
     #Add correct number of '%s' for the VALUES function
     params = "%s"
@@ -75,7 +101,7 @@ def update_table(table="", set_string="", data=(), where_string =""):
                   e.g  "name = %s, id = %s"
     """
 
-    conn, cursor = connect()
+    conn, cursor = connect_mysql()
     query = """
         UPDATE {}
         SET {}
@@ -107,7 +133,7 @@ def fetch_from_table(
     Output: A list of dictionaries if the query is successful otherwise it
             returns False
     """
-    db, cursor = connect()
+    db, cursor = connect_mysql()
     query = """
     SELECT {}
     FROM {}

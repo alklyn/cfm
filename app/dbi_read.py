@@ -4,14 +4,6 @@ Various functions for reading from the database.
 from bcrypt import gensalt, hashpw
 from app.dbi import fetch_from_table
 
-server = {
-    "host": "localhost",
-    "user": "cfm",
-    "passwd": "1T3r0Nrul3z*w-t-f",
-    "database": "programme_db"
-}
-
-
 def get_user_details(
     required_columns="*",
     where_clause="%s",
@@ -27,7 +19,7 @@ def get_user_details(
     user_details = fetch_from_table(required_columns=required_columns,
                                     where_clause=where_clause,
                                     params=params,
-                                    table="user",
+                                    table="agent",
                                     log_query=log_query)
     return user_details
 
@@ -174,7 +166,7 @@ def prep_select(
     where_clause="",
     params=(1, )):
     """
-    Prepare a list of id, user tuples for use in creating selectfields
+    Prepare a list of id, agent tuples for use in creating selectfields
     in forms.
 
     input
@@ -190,9 +182,9 @@ def prep_select(
 
     output: a list of tuples in as below:
     ======
-    (id, "firstname lastname") for the user table.
+    (id, "firstname lastname") for the agent table.
     """
-    if table == "user":
+    if table == "agent":
         required_columns = "id, firstname, lastname"
         user_details = fetch_from_table(
             table=table,
@@ -200,9 +192,9 @@ def prep_select(
             where_clause=where_clause,
             params=params)
         data = [(0, "---Please Select Agent---")]
-        for user in user_details:
-            fullname = "{0} {1}".format(user["firstname"], user["lastname"])
-            data.append((user["id"], fullname))
+        for agent in user_details:
+            fullname = "{0} {1}".format(agent["firstname"], agent["lastname"])
+            data.append((agent["id"], fullname))
 
     elif table == "gender":
         required_columns = "id, description"
@@ -304,7 +296,7 @@ def check_pw(username, password):
         required_columns=required_columns,
         where_clause=where_clause,
         params=params,
-        table="user")
+        table="agent")
 
     if user_details:
         valid_pw = bytes(user_details[0]["passwd"], 'utf8')
@@ -355,8 +347,8 @@ def get_tickets(
     INNER JOIN `priority` e ON e.id = a.priority_id
     INNER JOIN `partner` f ON f.id = a.partner_id
     INNER JOIN `programme` g ON g.id = a.programme_id
-    INNER JOIN `user` h ON h.id = a.created_by
-    INNER JOIN `user` i ON i.id = a.assigned_to
+    INNER JOIN `agent` h ON h.id = a.created_by
+    INNER JOIN `agent` i ON i.id = a.assigned_to
     INNER JOIN `ticket_status` j ON j.id = a.status_id
     INNER JOIN `district` k ON k.id = c.district_id
     INNER JOIN `province` l ON l.id = k.province_id
@@ -398,7 +390,7 @@ def get_ticket_updates(
     table = """
     ticket_update a
     INNER JOIN `update_type` b ON b.id = a.type_id
-    INNER JOIN `user` c ON c.id = a.posted_by
+    INNER JOIN `agent` c ON c.id = a.posted_by
     """
 
 

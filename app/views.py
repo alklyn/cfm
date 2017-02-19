@@ -15,7 +15,7 @@ from app.util import Pagination
 @app.route('/login', methods=["GET", "POST"])
 def login():
     """
-    Handles user logins
+    Handles agent logins
     """
     form = LoginForm()
     if form.validate_on_submit():# to get error messages to the browse
@@ -29,7 +29,7 @@ def login():
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     """
-    Handles user logout
+    Handles agent logout
     """
     del session['id']
     message = "You've successfully logged out."
@@ -39,10 +39,10 @@ def logout():
 
 def is_logged_in():
     """
-    Check if the user is logged in.
-    Return True is user is logged in else return False.
+    Check if the agent is logged in.
+    Return True is agent is logged in else return False.
     """
-    try:  #Test if user is logged in
+    try:  #Test if agent is logged in
         session["id"]
     except (AttributeError, NameError, HTTPException, KeyError) as error:
         print(str(error))
@@ -54,7 +54,7 @@ def is_logged_in():
 
 @app.route('/validate_login', methods=['POST'])
 def validate_login():
-    """ Check if user provided correct password. """
+    """ Check if agent provided correct password. """
     try:
         username = request.form['username']
         password = request.form['password']
@@ -65,7 +65,7 @@ def validate_login():
             user_data = fetch_from_table(
                 where_clause="username = %s",
                 params=(username, ),
-                table='user')
+                table='agent')
             session["id"] = user_data[0]["id"]
             return redirect(url_for('index'))
         else:
@@ -363,7 +363,7 @@ def save_ticket_update():
                 required_columns="firstname, lastname",
                 where_clause="id = %s",
                 params=(new_agent_id, ),
-                table="user")
+                table="agent")
 
         if agents:
             new_agent = agents[0]

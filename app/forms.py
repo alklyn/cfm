@@ -1,13 +1,13 @@
 """
 All the forms used in the project are defined here.
 """
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import TextField, SubmitField, PasswordField, SelectField, \
                     TextAreaField, IntegerField, RadioField, validators
 from wtforms.validators import Required, InputRequired
 from app.dbi_read import prep_select
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     """ Handle login """
     username = TextField(
         'username',
@@ -23,8 +23,8 @@ class LoginForm(Form):
     submit = SubmitField("sign in")
 
 
-class TicketForm(Form):
-    """ Form for creating new tickets """
+class TicketForm(FlaskForm):
+    """ FlaskForm for creating new tickets """
     caller_firstname = TextField(
         'First name of caller',
         validators=[InputRequired()],
@@ -121,7 +121,7 @@ class TicketForm(Form):
 
     #staffmember assigned ticket
     #list of id, fullname tuples
-    agents = prep_select( table="user", where_clause="id != %s", params=(1, ))
+    agents = prep_select( table="agent", where_clause="id != %s", params=(1, ))
     agent = SelectField('Assign to',
         validators=[InputRequired()],
         choices=agents,
@@ -140,8 +140,8 @@ class TicketForm(Form):
         render_kw={"onClick": "processInput(this)"})
 
 
-class UpdateTicketForm(Form):
-    """ Form for updating tickets """
+class UpdateTicketForm(FlaskForm):
+    """ FlaskForm for updating tickets """
     update_types = prep_select("update_type")  #list of id, update_type tuples
     update_type = SelectField(
         'Action',

@@ -12,9 +12,9 @@ def add_department(name):
 
 def add_user(firstname, lastname, username, passwd, email, dept_id):
     """
-    Save user details to database.
+    Save agent details to database.
     """
-    table = "user"
+    table = "agent"
     columns = "firstname, lastname, username, passwd, email, dept_id"
     data = (firstname, lastname, username, passwd, email, dept_id)
     insert_into_table(table, columns, data)
