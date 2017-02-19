@@ -42,7 +42,7 @@ CREATE TABLE fdp (
     name TEXT NOT NULL
 );
 
-CREATE TABLE user (
+CREATE TABLE agent (
     id SERIAL PRIMARY KEY,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
@@ -76,11 +76,6 @@ CREATE TABLE topic (
     description TEXT NOT NULL
 );
 
-CREATE TABLE priority (
-    id SERIAL PRIMARY KEY,
-    description TEXT NOT NULL
-);
-
 CREATE TABLE partner (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL
@@ -99,37 +94,22 @@ CREATE TABLE ticket (
     partner_id INTEGER REFERENCES partner(id) ON DELETE CASCADE,
     programme_id INTEGER REFERENCES programme(id) ON DELETE CASCADE,
     details TEXT NOT NULL,
-    created_by INTEGER REFERENCES user(id) ON DELETE CASCADE,
-    assigned_to INTEGER REFERENCES user(id) ON DELETE CASCADE,
-    status_id INTEGER NOT NULL DEFAULT 1 REFERENCES status(id) ON DELETE CASCADE,
-    dt_created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_by INTEGER REFERENCES agent(id) ON DELETE CASCADE,
+    assigned_to INTEGER REFERENCES agent(id) ON DELETE CASCADE,
+    status_id INTEGER NOT NULL DEFAULT 1 REFERENCES ticket_status(id) ON DELETE CASCADE,
+    dt_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE ticket.firstname IS 'First name of caller.';
-COMMENT ON TABLE ticket.lastname IS 'Last name of caller.';
-COMMENT ON TABLE ticket.phone_number IS 'Phone number of caller.';
-COMMENT ON TABLE ticket.phone_number IS 'Village or other location where the caller is reporting about.';
+COMMENT ON TABLE cfm.ticket.firstname IS 'First name of caller.';
+COMMENT ON TABLE cfm.ticket.lastname IS 'Last name of caller.';
+COMMENT ON TABLE cfm.ticket.phone_number IS 'Phone number of caller.';
+COMMENT ON TABLE cfm.ticket.phone_number IS 'Village or other location where the caller is reporting about.';
 
 CREATE TABLE ticket_update (
     id SERIAL PRIMARY KEY,
     type_id INTEGER REFERENCES update_type(id) ON DELETE CASCADE,
     ticket_id INTEGER REFERENCES ticket(id) ON DELETE CASCADE,
     post TEXT NOT NULL,
-    posted_by INTEGER REFERENCES user(id) ON DELETE CASCADE,
+    posted_by INTEGER REFERENCES agent(id) ON DELETE CASCADE,
     dt_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE gender (
-    id SERIAL PRIMARY KEY,
-    description TEXT NOT NULL
-);
-
-CREATE TABLE gender (
-    id SERIAL PRIMARY KEY,
-    description TEXT NOT NULL
-);
-
-CREATE TABLE gender (
-    id SERIAL PRIMARY KEY,
-    description TEXT NOT NULL
 );
